@@ -1,0 +1,21 @@
+{{- if .Values.corootCE.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "coroot.fullname" . }}-data
+  labels:
+    {{- include "coroot.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.corootCE.persistentVolume.size | quote }}
+{{- if .Values.corootCE.persistentVolume.storageClassName }}
+{{- if (eq "-" .Values.corootCE.persistentVolume.storageClassName) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.corootCE.persistentVolume.storageClassName }}"
+{{- end }}
+{{- end }}
+{{- end -}}

@@ -1,0 +1,80 @@
+corootCE:
+  enabled: true
+  bootstrap:
+    refreshInterval: 15s
+  replicas: 1
+  image:
+    repository: ghcr.io/coroot/coroot
+    pullPolicy: IfNotPresent
+    tag: ""
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+  podAnnotations: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts: []
+    #  - host: chart-example.local
+    #    paths:
+    #      - path: /
+    #        pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+  resources:
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  persistentVolume:
+    size: 10Gi
+    storageClassName: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  env: []
+
+prometheus:
+  enabled: true
+  alertmanager:
+    enabled: false
+  nodeExporter:
+    enabled: false
+  pushgateway:
+    enabled: false
+  kubeStateMetrics:
+    enabled: true
+  kube-state-metrics:
+    metricLabelsAllowlist:
+      - pods=[*]
+  server:
+    enabled: true
+    global:
+      scrape_interval: 15s
+    retention: 1d
+
+node-agent:
+  enabled: true

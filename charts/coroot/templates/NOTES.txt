@@ -1,0 +1,5 @@
+Forward the Coroot port to your machine:
+
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "coroot.fullname" . }} 8080:{{ .Values.corootCE.service.port }}
+
+Then, you can access Coroot at http://127.0.0.1:8080

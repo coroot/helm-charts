@@ -1,0 +1,73 @@
+{{- if .Values.corootCE.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "coroot.fullname" . }}
+  labels:
+    {{- include "coroot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.corootCE.replicas }}
+  selector:
+    matchLabels:
+      {{- include "coroot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.corootCE.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "coroot.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.corootCE.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "coroot.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.corootCE.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.corootCE.securityContext | nindent 12 }}
+          image: "{{ .Values.corootCE.image.repository }}:{{ .Values.corootCE.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.corootCE.image.pullPolicy }}
+          args:
+            - --listen=:8080
+            - --data-dir=/data
+            {{- if and .Values.corootCE.bootstrap.refreshInterval .Values.prometheus.server.enabled .Values.prometheus.server.service.enabled }}
+            - --bootstrap-prometheus-url={{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
+            - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
+            {{- end }}
+          env:
+            {{- toYaml .Values.corootCE.env | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          resources:
+            {{- toYaml .Values.corootCE.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ template "coroot.fullname" . }}-data
+      {{- with .Values.corootCE.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.corootCE.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.corootCE.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}
