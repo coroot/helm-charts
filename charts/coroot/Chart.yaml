@@ -10,6 +10,6 @@ dependencies:
     version: 15.16.*
     condition: prometheus.enabled
   - name: node-agent
-    version: 0.1.3
+    version: 0.1.4
     repository: https://coroot.github.io/helm-charts
     condition: node-agent.enabled
