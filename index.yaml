@@ -13,6 +13,25 @@ entries:
     version: 0.1.0
   coroot:
   - apiVersion: v2
+    appVersion: 0.9.0
+    created: "2022-12-05T08:29:40.963000257Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 15.16.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://coroot.github.io/helm-charts
+      version: 0.1.7
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: fed98fb40383a1e5b68778c691a21746d3f903fab79c72db77da42ca99ede6e9
+    name: coroot
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-0.1.10/coroot-0.1.10.tgz
+    version: 0.1.10
+  - apiVersion: v2
     appVersion: 0.8.2
     created: "2022-12-02T14:40:17.687715713Z"
     dependencies:
@@ -261,4 +280,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.1/node-agent-0.1.1.tgz
     version: 0.1.1
-generated: "2022-12-05T08:27:16.591947095Z"
+generated: "2022-12-05T08:29:40.963047758Z"
