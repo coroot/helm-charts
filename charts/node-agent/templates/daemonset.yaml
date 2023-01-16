@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         {{- include "node-agent.selectorLabels" . | nindent 8 }}
+        app: coroot-node-agent
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '80'
