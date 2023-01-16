@@ -48,4 +48,5 @@ Selector labels
 {{- define "node-agent.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "node-agent.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app: coroot-node-agent
 {{- end }}
