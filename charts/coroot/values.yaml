@@ -59,7 +59,7 @@ corootCE:
   env: []
 
 prometheus:
-  enabled: true
+  enabled: false
   alertmanager:
     enabled: false
   nodeExporter:
@@ -77,5 +77,14 @@ prometheus:
       scrape_interval: 15s
     retention: 1d
 
+existingPrometheus:
+  enabled: true
+  service:
+    serviceName: kube-prometheus-prometheus
+    servicePort: 9090
+    serviceNamespace: default
+  node-agent-podmonitor:
+    enabled: true
+  
 node-agent:
   enabled: true
