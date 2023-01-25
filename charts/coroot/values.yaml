@@ -77,5 +77,14 @@ prometheus:
       scrape_interval: 15s
     retention: 1d
 
+existingPrometheus:
+  enabled: false
+  service:
+    serviceName: prometheus
+    servicePort: 9090
+    serviceNamespace: default
+  node-agent-podmonitor:
+    enabled: true
+  
 node-agent:
   enabled: true
