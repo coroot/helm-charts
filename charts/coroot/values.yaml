@@ -59,7 +59,7 @@ corootCE:
   env: []
 
 prometheus:
-  enabled: false
+  enabled: true
   alertmanager:
     enabled: false
   nodeExporter:
@@ -78,9 +78,9 @@ prometheus:
     retention: 1d
 
 existingPrometheus:
-  enabled: true
+  enabled: false
   service:
-    serviceName: kube-prometheus-prometheus
+    serviceName: prometheus
     servicePort: 9090
     serviceNamespace: default
   node-agent-podmonitor:
