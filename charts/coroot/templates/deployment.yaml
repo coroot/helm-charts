@@ -42,6 +42,9 @@ spec:
             - --bootstrap-prometheus-url={{ printf "http://%s.%s:%s" (.Values.existingPrometheus.service.serviceName) (.Values.existingPrometheus.service.serviceNamespace) (.Values.existingPrometheus.service.servicePort | toString ) }}
             - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
             {{- end }}
+            {{- if and .Values.pyroscope.enabled }}
+            - --bootstrap-pyroscope-url={{ printf "http://%s:%s" (include "coroot.pyroscope.fullname" .) (.Values.pyroscope.service.port | toString ) }}
+            {{- end }}
           env:
             {{- toYaml .Values.corootCE.env | nindent 12 }}
           ports:

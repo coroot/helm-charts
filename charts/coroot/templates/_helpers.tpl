@@ -72,3 +72,15 @@ in a similar way as prometheus/templates/_helpers.tpl creates "prometheus.server
 {{- printf "%s-prometheus-%s" .Release.Name .Values.prometheus.server.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create a default fully qualified Pyroscope name.
+in a similar way as pyroscope/templates/_helpers.tpl creates "prometheus.server.fullname".
+*/}}
+{{- define "coroot.pyroscope.fullname" -}}
+{{- if .Values.pyroscope.fullnameOverride }}
+{{- .Values.pyroscope.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-pyroscope" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
