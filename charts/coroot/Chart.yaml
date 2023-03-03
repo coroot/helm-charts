@@ -2,7 +2,7 @@ apiVersion: v2
 name: coroot
 description: A monitoring and troubleshooting tool for microservice architectures.
 type: application
-version: 0.2.3
+version: 0.2.4
 appVersion: "0.14.2"
 dependencies:
   - name: prometheus
@@ -20,4 +20,4 @@ dependencies:
   - name: pyroscope-ebpf
     repository: https://pyroscope-io.github.io/helm-chart
     version: 0.1.*
-    condition: pyroscope.enabled
+    condition: pyroscope-ebpf.enabled
