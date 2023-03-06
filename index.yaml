@@ -13,6 +13,33 @@ entries:
     version: 0.1.0
   coroot:
   - apiVersion: v2
+    appVersion: 0.14.3
+    created: "2023-03-06T16:27:45.121921222Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 15.16.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://coroot.github.io/helm-charts
+      version: 0.1.18
+    - condition: pyroscope.enabled
+      name: pyroscope
+      repository: https://pyroscope-io.github.io/helm-chart
+      version: 0.2.*
+    - condition: pyroscope-ebpf.enabled
+      name: pyroscope-ebpf
+      repository: https://pyroscope-io.github.io/helm-chart
+      version: 0.1.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 9e9ea6b88c9d491efa25b217f5c26ee46902b160752a8f0afead18f4f2508e49
+    name: coroot
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-0.2.6/coroot-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
     appVersion: 0.14.2
     created: "2023-03-06T16:04:32.966246689Z"
     dependencies:
@@ -924,4 +951,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.1/node-agent-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-06T16:04:32.967061998Z"
+generated: "2023-03-06T16:27:45.12245602Z"
