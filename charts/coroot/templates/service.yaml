@@ -13,6 +13,9 @@ spec:
   type: {{ .Values.corootCE.service.type }}
   ports:
     - port: {{ .Values.corootCE.service.port }}
+      {{- if .Values.corootCE.service.nodePort }}
+      nodePort: {{ .Values.corootCE.service.nodePort }}
+      {{- end }}
       targetPort: http
       protocol: TCP
       name: http
