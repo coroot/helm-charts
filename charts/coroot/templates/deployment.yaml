@@ -37,11 +37,11 @@ spec:
           args:
             - --listen=:8080
             - --data-dir=/data
-            {{- if and .Values.corootCE.bootstrap.refreshInterval .Values.prometheus.enabled .Values.prometheus.server.enabled .Values.prometheus.server.service.enabled }}
-            - --bootstrap-prometheus-url={{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
-            - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
-            {{- else if and .Values.corootCE.bootstrap.refreshInterval  .Values.existingPrometheus.enabled }}
+            {{- if and .Values.corootCE.bootstrap.refreshInterval  .Values.existingPrometheus.enabled }}
             - --bootstrap-prometheus-url={{ printf "http://%s.%s:%s" (.Values.existingPrometheus.service.serviceName) (.Values.existingPrometheus.service.serviceNamespace) (.Values.existingPrometheus.service.servicePort | toString ) }}
+            - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
+            {{- else if and .Values.corootCE.bootstrap.refreshInterval .Values.prometheus.enabled .Values.prometheus.server.enabled }}
+            - --bootstrap-prometheus-url={{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
             - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
             {{- end }}
             {{- if and .Values.pyroscope.enabled }}
