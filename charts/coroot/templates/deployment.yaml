@@ -7,6 +7,8 @@ metadata:
     {{- include "coroot.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.corootCE.replicas }}
+  strategy:
+    {{- toYaml .Values.corootCE.strategy | nindent 4 }}
   selector:
     matchLabels:
       {{- include "coroot.selectorLabels" . | nindent 6 }}

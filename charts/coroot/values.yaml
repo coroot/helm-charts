@@ -3,6 +3,10 @@ corootCE:
   bootstrap:
     refreshInterval: 15s
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
   image:
     repository: ghcr.io/coroot/coroot
     pullPolicy: IfNotPresent
