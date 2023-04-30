@@ -26,6 +26,7 @@ spec:
       {{- end }}
       tolerations:
         - operator: Exists
+      priorityClassName: {{ .Values.priorityClassName }}
       hostPID: true
       containers:
         - name: {{ .Chart.Name }}

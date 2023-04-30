@@ -9,6 +9,8 @@ fullnameOverride: ""
 
 podAnnotations: {}
 
+priorityClassName: ""
+
 resources:
   requests:
     cpu: "100m"
