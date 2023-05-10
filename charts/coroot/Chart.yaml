@@ -26,6 +26,6 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: clickhouse.enabled
   - name: opentelemetry-collector
-    version: 0.52.0
+    version: 0.52.*
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
     condition: opentelemetry-collector.enabled

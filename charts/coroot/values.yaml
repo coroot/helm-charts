@@ -150,13 +150,9 @@ pyroscope-ebpf:
   args: ["ebpf","--application-name", "k8s.ebpf", "--server-address", "http://coroot-pyroscope:4040"]
 
 clickhouse:
+  enabled: true
   persistence:
     size: 50Gi
-  service:
-    type: NodePort
-    nodePorts:
-      tcp: 30004
-  enabled: true
   replicaCount: 1
   shards: 1
   zookeeper:
