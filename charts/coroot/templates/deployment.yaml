@@ -44,11 +44,29 @@ spec:
             - --bootstrap-prometheus-url={{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
             - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
             {{- end }}
-            {{- if and .Values.pyroscope.enabled }}
-            - --bootstrap-pyroscope-url={{ printf "http://%s:%s" (include "coroot.pyroscope.fullname" .) (.Values.pyroscope.service.port | toString ) }}
-            {{- end }}
           env:
-            {{- toYaml .Values.corootCE.env | nindent 12 }}
+          {{- if and .Values.pyroscope.enabled }}
+            - name: BOOTSTRAP_PYROSCOPE_URL
+              value: {{ printf "http://%s:%s" (include "coroot.pyroscope.fullname" .) (.Values.pyroscope.service.port | toString ) }}
+          {{- end }}
+          {{- if and .Values.clickhouse.enabled }}
+            - name: BOOTSTRAP_CLICKHOUSE_ADDRESS
+              value: {{ printf "%s:%s" (include "coroot.clickhouse.fullname" .) (.Values.clickhouse.service.ports.tcp | toString ) }}
+            - name: BOOTSTRAP_CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "coroot.clickhouse.fullname" . }}
+                  key: "admin-password"
+            - name: BOOTSTRAP_CLICKHOUSE_USER
+              value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "username" }}
+            - name: BOOTSTRAP_CLICKHOUSE_DATABASE
+              value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "database" }}
+            - name: BOOTSTRAP_CLICKHOUSE_TRACES_TABLE
+              value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "traces_table_name" }}
+          {{- end }}
+          {{- with .Values.corootCE.env }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8080

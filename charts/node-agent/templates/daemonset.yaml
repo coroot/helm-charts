@@ -36,7 +36,13 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}
+          {{- if .Values.otel.tracesEndpoint }}
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: "{{ .Values.otel.tracesEndpoint }}"
+          {{- end }}
+          {{- with .Values.env }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: 80
               name: http

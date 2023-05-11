@@ -21,3 +21,11 @@ dependencies:
     repository: https://pyroscope-io.github.io/helm-chart
     version: 0.1.*
     condition: pyroscope-ebpf.enabled
+  - name: clickhouse
+    version: 3.1.*
+    repository: https://charts.bitnami.com/bitnami
+    condition: clickhouse.enabled
+  - name: opentelemetry-collector
+    version: 0.52.*
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+    condition: opentelemetry-collector.enabled

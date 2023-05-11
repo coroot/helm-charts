@@ -75,12 +75,22 @@ in a similar way as prometheus/templates/_helpers.tpl creates "prometheus.server
 
 {{/*
 Create a default fully qualified Pyroscope name.
-in a similar way as pyroscope/templates/_helpers.tpl creates "prometheus.server.fullname".
 */}}
 {{- define "coroot.pyroscope.fullname" -}}
 {{- if .Values.pyroscope.fullnameOverride }}
 {{- .Values.pyroscope.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-pyroscope" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create a default fully qualified Clickhouse name.
+*/}}
+{{- define "coroot.clickhouse.fullname" -}}
+{{- if .Values.clickhouse.fullnameOverride }}
+{{- .Values.clickhouse.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-clickhouse" .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
