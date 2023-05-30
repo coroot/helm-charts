@@ -150,6 +150,8 @@ pyroscope:
 pyroscope-ebpf:
   enabled: true
   args: ["ebpf","--application-name", "k8s.ebpf", "--server-address", "http://coroot-pyroscope:4040"]
+  tolerations:
+    - operator: Exists
 
 clickhouse:
   enabled: true
