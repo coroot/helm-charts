@@ -24,6 +24,41 @@ entries:
   coroot:
   - apiVersion: v2
     appVersion: 0.17.1
+    created: "2023-05-30T12:41:37.317263728Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 15.16.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://coroot.github.io/helm-charts
+      version: 0.1.30
+    - condition: pyroscope.enabled
+      name: pyroscope
+      repository: https://pyroscope-io.github.io/helm-chart
+      version: 0.2.*
+    - condition: pyroscope-ebpf.enabled
+      name: pyroscope-ebpf
+      repository: https://pyroscope-io.github.io/helm-chart
+      version: 0.1.*
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 3.1.*
+    - condition: opentelemetry-collector.enabled
+      name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.52.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: fb9f9bbb68c19201d6d5c442083e992d6a8e16dc8acc4e9102cf7865f6b6c695
+    name: coroot
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-0.2.31/coroot-0.2.31.tgz
+    version: 0.2.31
+  - apiVersion: v2
+    appVersion: 0.17.1
     created: "2023-05-29T11:20:05.507549149Z"
     dependencies:
     - condition: prometheus.enabled
@@ -1468,6 +1503,17 @@ entries:
     version: 0.1.1
   node-agent:
   - apiVersion: v2
+    appVersion: 1.8.5
+    created: "2023-05-30T12:41:37.487289679Z"
+    description: A Prometheus exporter based on eBPF that gathers comprehensive container
+      metrics.
+    digest: cce875777b0a9bff9a58f441d754e73a85d3f062e63b1834ccda65915f8185af
+    name: node-agent
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.31/node-agent-0.1.31.tgz
+    version: 0.1.31
+  - apiVersion: v2
     appVersion: 1.8.4
     created: "2023-05-29T10:49:24.084251594Z"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
@@ -1786,4 +1832,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.1/node-agent-0.1.1.tgz
     version: 0.1.1
-generated: "2023-05-29T11:20:05.508031179Z"
+generated: "2023-05-30T12:41:37.487994997Z"
