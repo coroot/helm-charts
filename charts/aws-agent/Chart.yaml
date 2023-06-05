@@ -2,5 +2,5 @@ apiVersion: v2
 name: aws-agent
 description: A prometheus exporter that gathers metrics from AWS services.
 type: application
-version: 0.1.3
-appVersion: "1.2.1"
+version: 0.1.4
+appVersion: "1.2.2"
