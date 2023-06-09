@@ -1,0 +1,13 @@
+{{- if .Values.podMonitor -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "aws-agent.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "aws-agent.name" . }}
+  podMetricsEndpoints:
+    - port: http
+{{- end -}}
