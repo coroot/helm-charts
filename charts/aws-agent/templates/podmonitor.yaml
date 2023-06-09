@@ -7,7 +7,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "aws-agent.name" . }}
+      {{- include "aws-agent.selectorLabels" . | nindent 6 }}
   podMetricsEndpoints:
     - port: http
 {{- end -}}
