@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   aws-agent:
   - apiVersion: v2
+    appVersion: 1.2.3
+    created: "2023-06-14T13:47:41.945093067Z"
+    description: A prometheus exporter that gathers metrics from AWS services.
+    digest: c43eecc5299f13d5b581eb52a7c688fb20c6b9b67c898fe2506b1478df8e060b
+    name: aws-agent
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/aws-agent-0.1.7/aws-agent-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
     appVersion: 1.2.2
     created: "2023-06-09T10:44:26.827834209Z"
     description: A prometheus exporter that gathers metrics from AWS services.
@@ -2103,4 +2113,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.1/node-agent-0.1.1.tgz
     version: 0.1.1
-generated: "2023-06-09T10:44:26.828350653Z"
+generated: "2023-06-14T13:47:41.94599727Z"
