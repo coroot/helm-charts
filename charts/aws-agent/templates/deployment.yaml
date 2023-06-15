@@ -42,6 +42,10 @@ spec:
               value: {{ .Values.rds.user }}
             - name: RDS_DB_PASSWORD
               value: {{ .Values.rds.password }}
+            - name: RDS_FILTER
+              value: {{ .Values.rds.filter }}
+            - name: EC_FILTER
+              value: {{ .Values.ec.filter }}
           ports:
             - name: http
               containerPort: 80

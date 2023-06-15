@@ -6,6 +6,10 @@ aws:
 rds:
   user: ""
   password: ""
+  filter: ""
+
+ec:
+  filter: ""
 
 serviceAccountName: ""
 
