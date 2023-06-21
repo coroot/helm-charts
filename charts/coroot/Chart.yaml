@@ -2,8 +2,8 @@ apiVersion: v2
 name: coroot
 description: A monitoring and troubleshooting tool for microservice architectures.
 type: application
-version: 0.2.40
-appVersion: "0.17.7"
+version: 0.2.41
+appVersion: "0.17.8"
 dependencies:
   - name: prometheus
     repository: https://prometheus-community.github.io/helm-charts
