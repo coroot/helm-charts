@@ -62,6 +62,40 @@ corootCE:
   affinity: {}
   env: []
 
+corootConnect:
+  enabled: false
+  projectToken:
+  config:
+    prometheus:
+      url: ${PROMETHEUS_URL}
+      refresh_interval: 15s
+    pyroscope:
+      url: ${PYROSCOPE_URL}
+    clickhouse:
+      addr: ${CLICKHOUSE_ADDRESS}
+      auth:
+        user: default
+        password: ${CLICKHOUSE_PASSWORD}
+      protocol: native
+      database: default
+      traces_table: otel_traces
+  image:
+    repository: ghcr.io/coroot/coroot-connect
+    pullPolicy: IfNotPresent
+    tag: "2.0.2"
+  imagePullSecrets: []
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  env: []
+
 prometheus:
   enabled: true
   alertmanager:
@@ -80,6 +114,8 @@ prometheus:
     global:
       scrape_interval: 15s
     retention: 1d
+    persistentVolume:
+      size: 10Gi
 
 existingPrometheus:
   enabled: false

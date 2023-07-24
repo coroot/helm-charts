@@ -62,6 +62,23 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Coroot Connect
+*/}}
+{{- define "corootConnect.name" -}}
+{{- printf "%s-connect" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "corootConnect.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "corootConnect.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+{{- define "corootConnect.labels" -}}
+helm.sh/chart: {{ include "coroot.chart" . }}
+{{ include "corootConnect.selectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.corootConnect.image.tag | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Create a fully qualified Prometheus server name
 in a similar way as prometheus/templates/_helpers.tpl creates "prometheus.server.fullname".
 */}}

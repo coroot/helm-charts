@@ -1,0 +1,92 @@
+{{- if .Values.corootConnect.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "corootConnect.name" . }}
+  labels:
+    {{- include "corootConnect.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+  {{- toYaml .Values.corootConnect.config | nindent 4 }}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "corootConnect.name" . }}
+  labels:
+    {{- include "corootConnect.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "corootConnect.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ toYaml .Values.corootConnect.config | sha256sum }}
+        {{- with .Values.corootConnect.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "corootConnect.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.corootConnect.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.corootConnect.podSecurityContext | nindent 8 }}
+      containers:
+        - name: connect
+          securityContext:
+            {{- toYaml .Values.corootConnect.securityContext | nindent 12 }}
+          image: "{{ .Values.corootConnect.image.repository }}:{{ .Values.corootConnect.image.tag }}"
+          imagePullPolicy: {{ .Values.corootConnect.image.pullPolicy }}
+          env:
+            - name: PROJECT_TOKEN
+              value: {{ .Values.corootConnect.projectToken }}
+            - name: CONFIG_PATH
+              value: /tmp/config.yaml
+            - name: PROMETHEUS_URL
+              value: {{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
+          {{- if .Values.pyroscope.enabled }}
+            - name: PYROSCOPE_URL
+              value: {{ printf "http://%s:%s" (include "coroot.pyroscope.fullname" .) (.Values.pyroscope.service.port | toString ) }}
+          {{- end }}
+          {{- if and .Values.clickhouse.enabled }}
+            - name: CLICKHOUSE_ADDRESS
+              value: {{ printf "%s:%s" (include "coroot.clickhouse.fullname" .) (.Values.clickhouse.service.ports.tcp | toString ) }}
+            - name: CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "coroot.clickhouse.fullname" . }}
+                  key: admin-password
+          {{- end }}
+          {{- with .Values.corootConnect.env }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.corootConnect.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /tmp/config.yaml
+              subPath: config.yaml
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "corootConnect.name" . }}
+      {{- with .Values.corootConnect.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.corootConnect.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.corootConnect.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}
