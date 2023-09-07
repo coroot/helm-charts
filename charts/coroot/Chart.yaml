@@ -2,7 +2,7 @@ apiVersion: v2
 name: coroot
 description: A monitoring and troubleshooting tool for microservice architectures.
 type: application
-version: 0.3.12
+version: 0.3.13
 appVersion: "0.18.3"
 dependencies:
   - name: prometheus
@@ -10,7 +10,7 @@ dependencies:
     version: 15.16.*
     condition: prometheus.enabled
   - name: node-agent
-    version: 0.1.41
+    version: 0.1.42
     repository: https://coroot.github.io/helm-charts
     condition: node-agent.enabled
   - name: pyroscope
