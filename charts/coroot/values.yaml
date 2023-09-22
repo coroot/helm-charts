@@ -82,7 +82,7 @@ corootConnect:
   image:
     repository: ghcr.io/coroot/coroot-connect
     pullPolicy: IfNotPresent
-    tag: "2.0.3"
+    tag: "2.0.4"
   imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
