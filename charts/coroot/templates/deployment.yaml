@@ -61,8 +61,14 @@ spec:
               value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "username" }}
             - name: BOOTSTRAP_CLICKHOUSE_DATABASE
               value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "database" }}
+          {{- end }}
+          {{- if and .Values.corootCE.bootstrap.otel.traces.enabled }}
             - name: BOOTSTRAP_CLICKHOUSE_TRACES_TABLE
               value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "traces_table_name" }}
+          {{- end }}
+          {{- if and .Values.corootCE.bootstrap.otel.logs.enabled }}
+            - name: BOOTSTRAP_CLICKHOUSE_LOGS_TABLE
+              value: {{ index .Values "opentelemetry-collector" "config" "exporters" "clickhouse" "logs_table_name" }}
           {{- end }}
           {{- with .Values.corootCE.env }}
           {{- . | toYaml | nindent 12 }}

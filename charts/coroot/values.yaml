@@ -2,6 +2,11 @@ corootCE:
   enabled: true
   bootstrap:
     refreshInterval: 15s
+    otel:
+      traces:
+        enabled: true
+      logs:
+        enabled: true
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -79,6 +84,7 @@ corootConnect:
       protocol: native
       database: default
       traces_table: otel_traces
+      logs_table: otel_logs
   image:
     repository: ghcr.io/coroot/coroot-connect
     pullPolicy: IfNotPresent
@@ -314,6 +320,7 @@ node-agent:
   enabled: true
   otel:
     tracesEndpoint: "http://coroot-opentelemetry-collector:4318/v1/traces"
+    logsEndpoint: "http://coroot-opentelemetry-collector:4318/v1/logs"
 
 pyroscope:
   enabled: true
@@ -425,6 +432,10 @@ opentelemetry-collector:
     service:
       pipelines:
         traces:
+          processors: [batch]
+          exporters: [clickhouse]
+          receivers: [otlp]
+        logs:
           processors: [batch]
           exporters: [clickhouse]
           receivers: [otlp]
