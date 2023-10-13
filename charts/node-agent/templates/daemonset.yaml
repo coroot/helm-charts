@@ -40,6 +40,10 @@ spec:
             - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
               value: "{{ .Values.otel.tracesEndpoint }}"
           {{- end }}
+          {{- if .Values.otel.logsEndpoint }}
+            - name: OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
+              value: "{{ .Values.otel.logsEndpoint }}"
+          {{- end }}
           {{- with .Values.env }}
           {{- . | toYaml | nindent 12 }}
           {{- end }}
