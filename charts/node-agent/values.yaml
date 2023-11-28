@@ -24,3 +24,6 @@ env: []
 otel:
   tracesEndpoint: ""
   logsEndpoint: ""
+
+profiling:
+  pyroscopeEndpoint: ""
