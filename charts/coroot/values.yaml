@@ -357,6 +357,8 @@ node-agent:
   otel:
     tracesEndpoint: "http://coroot-opentelemetry-collector:4318/v1/traces"
     logsEndpoint: "http://coroot-opentelemetry-collector:4318/v1/logs"
+  profiling:
+    pyroscopeEndpoint: "http://coroot-pyroscope:4040/ingest"
 
 pyroscope:
   enabled: true
@@ -409,12 +411,6 @@ pyroscope:
           - action: labelmap
             regex: __meta_kubernetes_pod_annotation_pyroscope_io_profile_(.+)
             replacement: __profile_$1
-
-pyroscope-ebpf:
-  enabled: true
-  args: ["ebpf","--application-name", "k8s.ebpf", "--server-address", "http://coroot-pyroscope:4040"]
-  tolerations:
-    - operator: Exists
 
 clickhouse:
   enabled: true
