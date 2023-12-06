@@ -1,6 +1,6 @@
 {{- define "coroot-agent.params" -}}
 - coroot-node-agent
-{{- if .Values.agent.port }}
+{{- if .Values.coroot-agent.port }}
 - --listen={{ .Values.coroot-agent.port }}
 {{- end }}
 {{- if .Values.coroot-agent.cgroupfsRoot }}
