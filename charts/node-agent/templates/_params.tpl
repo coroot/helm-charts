@@ -1,4 +1,4 @@
-{{- define "coroot.params" -}}
+{{- define "coroot-agent.params" -}}
 - coroot-node-agent
 {{- if .Values.agent.port }}
 - --listen={{ .Values.agent.port }}
