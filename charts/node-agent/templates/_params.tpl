@@ -1,36 +1,36 @@
-{{- define "coroot-agent.params" -}}
+{{- define "corootAgent.params" -}}
 - coroot-node-agent
-{{- if .Values.coroot-agent.port }}
-- --listen={{ .Values.coroot-agent.port }}
+{{- if .Values.corootAgent.port }}
+- --listen={{ .Values.corootAgent.port }}
 {{- end }}
-{{- if .Values.coroot-agent.cgroupfsRoot }}
-- --cgroupfs-root={{ .Values.coroot-agent.cgroupfsRoot }}
+{{- if .Values.corootAgent.cgroupfsRoot }}
+- --cgroupfs-root={{ .Values.corootAgent.cgroupfsRoot }}
 {{- end }}
-{{- if .Values.coroot-agent.disableLogParsing }}
+{{- if .Values.corootAgent.disableLogParsing }}
 - --disable-log-parsing
 {{- end }}
-{{- if .Values.coroot-agent.disableL7Tracing }}
+{{- if .Values.corootAgent.disableL7Tracing }}
 - --disable-log-parsing"
 {{- end }}
-{{- if .Values.coroot-agent.trackPublicNetwork }}
-- --track-public-network={{ .Values.coroot-agent.trackPublicNetwork }}
+{{- if .Values.corootAgent.trackPublicNetwork }}
+- --track-public-network={{ .Values.corootAgent.trackPublicNetwork }}
 {{- end }}
-{{- if .Values.coroot-agent.ephemeralPortRange }}
-- --track-public-network={{ .Values.coroot-agent.ephemeralPortRange }}
+{{- if .Values.corootAgent.ephemeralPortRange }}
+- --track-public-network={{ .Values.corootAgent.ephemeralPortRange }}
 {{- end }}
-{{- if .Values.coroot-agent.provider }}
-- --provider={{ .Values.coroot-agent.provider  }}
+{{- if .Values.corootAgent.provider }}
+- --provider={{ .Values.corootAgent.provider  }}
 {{- end }}
-{{- if .Values.coroot-agent.region }}
-- --region={{ .Values.coroot-agent.region  }}
+{{- if .Values.corootAgent.region }}
+- --region={{ .Values.corootAgent.region  }}
 {{- end }}
-{{- if .Values.coroot-agent.az }}
-- --availability-zone={{ .Values.coroot-agent.az  }}
+{{- if .Values.corootAgent.az }}
+- --availability-zone={{ .Values.corootAgent.az  }}
 {{- end }}
-{{- if .Values.coroot-agent.instanceType }}
-- --availability-zone={{ .Values.coroot-agent.instanceType  }}
+{{- if .Values.corootAgent.instanceType }}
+- --availability-zone={{ .Values.corootAgent.instanceType  }}
 {{- end }}
-{{- if .Values.coroot-agent.instanceLifeCycle }}
-- --instance-life-cycle={{ .Values.coroot-agent.instanceLifeCycle }}
+{{- if .Values.corootAgent.instanceLifeCycle }}
+- --instance-life-cycle={{ .Values.corootAgent.instanceLifeCycle }}
 {{- end }}
 {{- end -}}

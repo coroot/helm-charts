@@ -15,7 +15,7 @@ spec:
         app: coroot-node-agent
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '{{ .Values.coroot-agent.port }}'
+        prometheus.io/port: {{ .Values.corootAgent.port | quote }}
         {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 4 }}
         {{- end }}
@@ -31,7 +31,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: {{ include "coroot-agent.params" . | nindent 12 }}
+          command: {{ include "corootAgent.params" . | nindent 12 }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -52,7 +52,7 @@ spec:
           {{- . | toYaml | nindent 12 }}
           {{- end }}
           ports:
-            - containerPort: {{ .Values.coroot-agent.port }}
+            - containerPort: {{ .Values.corootAgent.port }}
               name: http
           securityContext:
             privileged: true
