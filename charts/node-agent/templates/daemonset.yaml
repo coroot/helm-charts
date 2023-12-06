@@ -15,7 +15,7 @@ spec:
         app: coroot-node-agent
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '80'
+        prometheus.io/port: '{{ .Values.coroot-agent.port }}'
         {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 4 }}
         {{- end }}
@@ -52,7 +52,7 @@ spec:
           {{- . | toYaml | nindent 12 }}
           {{- end }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.coroot-agent.port }}
               name: http
           securityContext:
             privileged: true
