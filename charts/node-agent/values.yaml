@@ -27,3 +27,7 @@ otel:
 
 profiling:
   pyroscopeEndpoint: ""
+
+coroot-agent:
+  port: 8080
+  cgroupfsRoot: "/host/sys/fs/cgroup"
