@@ -3591,6 +3591,17 @@ entries:
     version: 0.1.1
   node-agent:
   - apiVersion: v2
+    appVersion: 1.16.2
+    created: "2024-01-16T10:47:13.397208975Z"
+    description: A Prometheus exporter based on eBPF that gathers comprehensive container
+      metrics.
+    digest: 824b704fa47ea4ed31a5ca1cf4ee0c34ac903e7707ba9b164f89626d47ddd9fb
+    name: node-agent
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.53/node-agent-0.1.53.tgz
+    version: 0.1.53
+  - apiVersion: v2
     appVersion: 1.15.1
     created: "2023-12-20T14:32:47.72542857Z"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
@@ -4151,4 +4162,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.1/node-agent-0.1.1.tgz
     version: 0.1.1
-generated: "2024-01-08T08:01:11.029530909Z"
+generated: "2024-01-16T10:47:13.397719541Z"
