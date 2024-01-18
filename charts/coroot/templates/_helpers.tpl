@@ -4,6 +4,9 @@ Expand the name of the chart.
 {{- define "coroot.name" -}}
 {{- default .Chart.Name .Values.corootCE.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
+{{- define "coroot.namespace" -}}
+{{- .Release.Namespace -}}
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -79,6 +82,23 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Coroot Cluster Agent
+*/}}
+{{- define "corootClusterAgent.name" -}}
+{{- printf "%s-cluster-agent" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "corootClusterAgent.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "corootClusterAgent.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+{{- define "corootClusterAgent.labels" -}}
+helm.sh/chart: {{ include "coroot.chart" . }}
+{{ include "corootClusterAgent.selectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.corootClusterAgent.image.tag | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Create a fully qualified Prometheus server name
 in a similar way as prometheus/templates/_helpers.tpl creates "prometheus.server.fullname".
 */}}
@@ -89,17 +109,6 @@ in a similar way as prometheus/templates/_helpers.tpl creates "prometheus.server
 {{- printf "%s-prometheus-%s" .Release.Name .Values.prometheus.server.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
-
-{{/*
-Create a default fully qualified Pyroscope name.
-*/}}
-{{- define "coroot.pyroscope.fullname" -}}
-{{- if .Values.pyroscope.fullnameOverride }}
-{{- .Values.pyroscope.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-pyroscope" .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
 
 {{/*
 Create a default fully qualified Clickhouse name.
