@@ -44,9 +44,9 @@ spec:
             - name: OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
               value: "{{ .Values.otel.logsEndpoint }}"
           {{- end }}
-          {{- if .Values.profiling.pyroscopeEndpoint }}
+          {{- if .Values.profiling.profilesEndpoint }}
             - name: PROFILES_ENDPOINT
-              value: "{{ .Values.profiling.pyroscopeEndpoint }}"
+              value: "{{ .Values.profiling.profilesEndpoint }}"
           {{- end }}
           {{- with .Values.env }}
           {{- . | toYaml | nindent 12 }}

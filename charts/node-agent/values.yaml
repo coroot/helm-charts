@@ -26,4 +26,4 @@ otel:
   logsEndpoint: ""
 
 profiling:
-  pyroscopeEndpoint: ""
+  profilesEndpoint: ""
