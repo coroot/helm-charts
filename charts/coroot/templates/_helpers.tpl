@@ -85,7 +85,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Coroot Cluster Agent
 */}}
 {{- define "corootClusterAgent.name" -}}
+{{- if .Values.corootClusterAgent.fullnameOverride -}}
+{{- .Values.corootClusterAgent.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
 {{- printf "%s-cluster-agent" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 {{- define "corootClusterAgent.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "corootClusterAgent.name" . }}

@@ -102,6 +102,7 @@ corootConnect:
 
 corootClusterAgent:
   enabled: true
+  fullnameOverride: ""
   config:
     listen: :8080
     clickhouse:
