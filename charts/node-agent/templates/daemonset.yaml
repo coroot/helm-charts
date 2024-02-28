@@ -40,7 +40,7 @@ spec:
             - name: TRACES_ENDPOINT
               value: "{{ .Values.tracesEndpoint }}"
           {{- end }}
-          {{- if .Values.otel.logsEndpoint }}
+          {{- if .Values.logsEndpoint }}
             - name: LOGS_ENDPOINT
               value: "{{ .Values.logsEndpoint }}"
           {{- end }}
