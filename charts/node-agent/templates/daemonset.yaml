@@ -36,17 +36,29 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-          {{- if .Values.otel.tracesEndpoint }}
-            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: "{{ .Values.otel.tracesEndpoint }}"
+          {{- if .Values.tracesEndpoint }}
+            - name: TRACES_ENDPOINT
+              value: "{{ .Values.tracesEndpoint }}"
           {{- end }}
           {{- if .Values.otel.logsEndpoint }}
-            - name: OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
-              value: "{{ .Values.otel.logsEndpoint }}"
+            - name: LOGS_ENDPOINT
+              value: "{{ .Values.logsEndpoint }}"
           {{- end }}
-          {{- if .Values.profiling.profilesEndpoint }}
+          {{- if .Values.profilesEndpoint }}
             - name: PROFILES_ENDPOINT
-              value: "{{ .Values.profiling.profilesEndpoint }}"
+              value: "{{ .Values.profilesEndpoint }}"
+          {{- end }}
+          {{- if .Values.metricsEndpoint }}
+            - name: METRICS_ENDPOINT
+              value: "{{ .Values.metricsEndpoint }}"
+          {{- end }}
+          {{- if .Values.scrapeInterval }}
+            - name: SCRAPE_INTERVAL
+              value: "{{ .Values.scrapeInterval }}"
+          {{- end }}
+          {{- if .Values.apiKey }}
+            - name: API_KEY
+              value: "{{ .Values.apiKey }}"
           {{- end }}
           {{- with .Values.env }}
           {{- . | toYaml | nindent 12 }}
@@ -63,6 +75,9 @@ spec:
             - mountPath: /sys/kernel/debug
               name: debugfs
               readOnly: false
+            - mountPath: /tmp
+              name: tmp
+              readOnly: false
       volumes:
         - hostPath:
             path: /sys/fs/cgroup
@@ -70,3 +85,5 @@ spec:
         - hostPath:
             path: /sys/kernel/debug
           name: debugfs
+        - emptyDir: {}
+          name: tmp

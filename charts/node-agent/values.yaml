@@ -21,9 +21,11 @@ resources:
 
 env: []
 
-otel:
-  tracesEndpoint: ""
-  logsEndpoint: ""
+apiKey: ""
 
-profiling:
-  profilesEndpoint: ""
+metricsEndpoint: ""
+scrapeInterval: ""
+
+tracesEndpoint: ""
+logsEndpoint: ""
+profilesEndpoint: ""
