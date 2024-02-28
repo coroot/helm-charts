@@ -9,9 +9,7 @@ corootCE:
         enabled: true
   replicas: 1
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 0
+    type: Recreate
   image:
     repository: ghcr.io/coroot/coroot
     pullPolicy: IfNotPresent
@@ -153,6 +151,10 @@ prometheus:
     retention: 1d
     persistentVolume:
       size: 10Gi
+    strategy:
+      type: Recreate
+    extraFlags:
+      - web.enable-remote-write-receiver
   serverFiles:
     prometheus.yml:
       scrape_configs:
@@ -406,11 +408,9 @@ existingPrometheus:
   
 node-agent:
   enabled: true
-  otel:
-    tracesEndpoint: "http://coroot-opentelemetry-collector:4318/v1/traces"
-    logsEndpoint: "http://coroot-opentelemetry-collector:4318/v1/logs"
-  profiling:
-    profilesEndpoint: "http://coroot-cluster-agent:8080/profiles"
+  tracesEndpoint: "http://coroot-opentelemetry-collector:4318/v1/traces"
+  logsEndpoint: "http://coroot-opentelemetry-collector:4318/v1/logs"
+  profilesEndpoint: "http://coroot-cluster-agent:8080/profiles"
 
 clickhouse:
   enabled: true
