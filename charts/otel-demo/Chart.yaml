@@ -1,0 +1,16 @@
+apiVersion: v2
+name: otel-demo
+description: otel-demo
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+dependencies:
+  - name: opentelemetry-demo
+    version: 0.28.3
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+  - name: coroot
+    version: 0.8.14
+    repository: https://coroot.github.io/helm-charts
+  - name: chaos-mesh
+    version: 2.6.3
+    repository: https://charts.chaos-mesh.org

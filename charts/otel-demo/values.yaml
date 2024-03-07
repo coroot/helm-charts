@@ -1,0 +1,116 @@
+opentelemetry-demo:
+  grafana:
+    enabled: false
+  prometheus:
+    enabled: false
+  jaeger:
+    enabled: false
+  opentelemetry-collector:
+    enabled: false
+  components:
+    frontend:
+      resources:
+        limits:
+          cpu: 500m
+          memory: 500M
+      replicas: 2
+    quoteService:
+      replicas: 1
+    emailService:
+      resources:
+        limits:
+          memory: 300M
+    productCatalogService:
+      resources:
+        limits:
+          memory: 20M
+          cpu: 100m
+    frontendProxy:
+      service:
+        type: NodePort
+        nodePort: 30005
+    loadgenerator:
+      resources:
+        limits:
+          memory: 500M
+      env:
+        - name: LOCUST_WEB_PORT
+          value: "8089"
+        - name: LOCUST_USERS
+          value: "300"
+        - name: LOCUST_SPAWN_RATE
+          value: "1"
+        - name: LOCUST_HOST
+          value: 'http://{{ include "otel-demo.name" . }}-frontendproxy:8080'
+        - name: LOCUST_HEADLESS
+          value: "false"
+        - name: LOCUST_AUTOSTART
+          value: "true"
+        - name: PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION
+          value: python
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://$(OTEL_COLLECTOR_NAME):4317
+
+  default:
+    env:
+      - name: OTEL_SERVICE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: "metadata.labels['app.kubernetes.io/component']"
+      - name: OTEL_COLLECTOR_NAME
+        value: 'coroot-opentelemetry-collector'
+      - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+        value: cumulative
+      - name: OTEL_RESOURCE_ATTRIBUTES
+        value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo
+
+redis:
+  fullnameOverride: "redis"
+  architecture: standalone
+  auth:
+    enabled: false
+  metrics:
+    enabled: true
+
+coroot:
+  corootConnect:
+    enabled: false
+    projectToken: ""
+  corootCE:
+    fullnameOverride: coroot
+    service:
+      type: NodePort
+      nodePort: 30001
+  corootClusterAgent:
+    fullnameOverride: coroot-cluster-agent
+  node-agent:
+    fullnameOverride: coroot-node-agent
+  clickhouse:
+    fullnameOverride: coroot-clickhouse
+    auth:
+      password: "clickhouse_password"
+  prometheus:
+    server:
+      service:
+        type: NodePort
+        nodePort: 30002
+      fullnameOverride: coroot-prometheus-server
+    kube-state-metrics:
+      fullnameOverride: coroot-kube-state-metrics
+  opentelemetry-collector:
+    fullnameOverride: coroot-opentelemetry-collector
+
+chaos-mesh:
+  rbac:
+    create: true
+  dashboard:
+    securityMode: false
+    service:
+      type: NodePort
+      nodePort: 30003
+#  chaosDaemon:
+#    runtime: containerd
+#    socketPath: /run/k3s/containerd/containerd.sock
+
+
