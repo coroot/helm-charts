@@ -36,6 +36,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- if .Values.collectorEndpoint }}
+            - name: COLLECTOR_ENDPOINT
+              value: "{{ .Values.collectorEndpoint }}"
+          {{- end }}
+          {{- if .Values.apiKey }}
+            - name: API_KEY
+              value: "{{ .Values.apiKey }}"
+          {{- end }}
           {{- if .Values.tracesEndpoint }}
             - name: TRACES_ENDPOINT
               value: "{{ .Values.tracesEndpoint }}"
@@ -55,10 +63,6 @@ spec:
           {{- if .Values.scrapeInterval }}
             - name: SCRAPE_INTERVAL
               value: "{{ .Values.scrapeInterval }}"
-          {{- end }}
-          {{- if .Values.apiKey }}
-            - name: API_KEY
-              value: "{{ .Values.apiKey }}"
           {{- end }}
           {{- with .Values.env }}
           {{- . | toYaml | nindent 12 }}

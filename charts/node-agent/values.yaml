@@ -21,6 +21,7 @@ resources:
 
 env: []
 
+collectorEndpoint: ""
 apiKey: ""
 
 metricsEndpoint: ""
