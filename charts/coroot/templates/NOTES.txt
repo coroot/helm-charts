@@ -1,5 +1,46 @@
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+COROOT VERSION: {{ .Chart.AppVersion  }}
+
+Please wait until Coroot's components are deployed. You can monitor the status by:
+
+  kubectl -n {{ .Release.Namespace }} get pods
+
+Please wait until all the pods are in the "Running" STATUS and READY.
+
+{{ if .Values.corootCE.ingress.enabled }}
+Visit Coroot at the ingress URL(s):
+{{- if .Values.corootCE.ingress.hostname }}
+  http{{ if $.Values.corootCE.ingress.tls }}s{{ end }}://{{ .Values.corootCE.ingress.hostname }}{{ .Values.corootCE.ingress.path }}
+{{- end }}
+{{- range $host := .Values.corootCE.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.corootCE.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+
+or
+{{ else if contains "NodePort" .Values.corootCE.service.type}}
+Get the Coroot URL by running these commands in the same shell:
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "coroot.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+
+or
+{{ else if contains "LoadBalancer" .Values.corootCE.service.type }}
+Get the Coroot URL by running these commands in the same shell:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "coroot.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "coroot.fullname" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ .Values.corootCE.service.port }}
+
+or
+{{ end }}
 Forward the Coroot port to your machine:
 
   kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "coroot.fullname" . }} 8080:{{ .Values.corootCE.service.port }}
 
 Then, you can access Coroot at http://127.0.0.1:8080
+
+For more information on running Coroot, visit https://coroot.com/docs/coroot-community-edition/getting-started/installation
+

@@ -37,6 +37,25 @@ spec:
     {{- end }}
   {{- end }}
   rules:
+    {{- if .Values.corootCE.ingress.hostname }}
+    - host: {{ .Values.corootCE.ingress.hostname | quote }}
+      http:
+        paths:
+          - path: {{ .Values.corootCE.ingress.path }}
+            {{- if and .Values.corootCE.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.corootCE.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+    {{- end }}
     {{- range .Values.corootCE.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
