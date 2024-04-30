@@ -76,8 +76,8 @@ spec:
             - mountPath: /host/sys/fs/cgroup
               name: cgroupfs
               readOnly: true
-            - mountPath: /sys/kernel/debug
-              name: debugfs
+            - mountPath: /sys/kernel/tracing
+              name: tracefs
               readOnly: false
             - mountPath: /tmp
               name: tmp
@@ -87,7 +87,7 @@ spec:
             path: /sys/fs/cgroup
           name: cgroupfs
         - hostPath:
-            path: /sys/kernel/debug
-          name: debugfs
+            path: /sys/kernel/tracing
+          name: tracefs
         - emptyDir: {}
           name: tmp
