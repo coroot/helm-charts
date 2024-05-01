@@ -79,6 +79,9 @@ spec:
             - mountPath: /sys/kernel/tracing
               name: tracefs
               readOnly: false
+            - mountPath: /sys/kernel/debug
+              name: debugfs
+              readOnly: false
             - mountPath: /tmp
               name: tmp
               readOnly: false
@@ -89,5 +92,8 @@ spec:
         - hostPath:
             path: /sys/kernel/tracing
           name: tracefs
+        - hostPath:
+            path: /sys/kernel/debug
+          name: debugfs
         - emptyDir: {}
           name: tmp
