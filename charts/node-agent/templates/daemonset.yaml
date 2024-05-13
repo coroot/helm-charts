@@ -15,7 +15,7 @@ spec:
         app: coroot-node-agent
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '80'
+        prometheus.io/port: '{{ .Values.port }}'
         {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 4 }}
         {{- end }}
@@ -31,7 +31,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["coroot-node-agent", "--cgroupfs-root", "/host/sys/fs/cgroup"]
+          command: ["coroot-node-agent", "--listen=0.0.0.0:{{ .Values.port }}", "--cgroupfs-root", "/host/sys/fs/cgroup"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -68,7 +68,7 @@ spec:
           {{- . | toYaml | nindent 12 }}
           {{- end }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.port }}
               name: http
           securityContext:
             privileged: true

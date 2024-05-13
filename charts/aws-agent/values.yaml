@@ -18,6 +18,8 @@ image:
   pullPolicy: IfNotPresent
   tag: ""
 
+port: 80
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

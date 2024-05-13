@@ -13,7 +13,7 @@ spec:
     metadata:
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '80'
+        prometheus.io/port: '{{ .Values.port }}'
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -45,9 +45,11 @@ spec:
               value: {{ .Values.rds.filter }}
             - name: EC_FILTER
               value: {{ .Values.ec.filter }}
+            - name: LISTEN_ADDRESS
+              value: {{ .Values.port }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.port }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
