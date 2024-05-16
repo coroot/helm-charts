@@ -17,7 +17,7 @@ spec:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '80'
         {{- if .Values.podAnnotations }}
-        {{- toYaml .Values.podAnnotations | nindent 4 }}
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
         {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
