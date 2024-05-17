@@ -46,7 +46,7 @@ spec:
             - name: EC_FILTER
               value: {{ .Values.ec.filter }}
             - name: LISTEN_ADDRESS
-              value: {{ .Values.port }}
+              value: "{{ .Values.port }}"
           ports:
             - name: http
               containerPort: {{ .Values.port }}
