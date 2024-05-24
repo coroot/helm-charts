@@ -6,14 +6,49 @@ opentelemetry-demo:
   jaeger:
     enabled: false
   opentelemetry-collector:
-    enabled: false
+    enabled: true
+    resources:
+      requests:
+        memory: 1G
+      limits:
+        memory: 2G
+    config:
+      exporters:
+        otlphttp:
+          endpoint: 'http://coroot:8080'
+      service:
+        pipelines:
+          traces:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ otlphttp ]
+          metrics:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ debug ]
+          logs:
+            receivers: [ otlp ]
+            processors: [ memory_limiter, resource, batch ]
+            exporters: [ otlphttp ]
   components:
     frontend:
       resources:
         limits:
           cpu: 500m
           memory: 500M
-      replicas: 2
+      replicas: 1
+    cartService:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+          cpu: 500m
+    checkoutService:
+      replicas: 1
+      resources:
+        limits:
+          memory: 100M
+          cpu: 500m
     quoteService:
       replicas: 1
     emailService:
@@ -21,10 +56,14 @@ opentelemetry-demo:
         limits:
           memory: 300M
     productCatalogService:
+      replicas: 1
       resources:
+        requests:
+          memory: 10M
+          cpu: 100m
         limits:
           memory: 20M
-          cpu: 100m
+          cpu: 500m
     frontendProxy:
       service:
         type: NodePort
@@ -51,20 +90,6 @@ opentelemetry-demo:
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: http://$(OTEL_COLLECTOR_NAME):4317
 
-  default:
-    env:
-      - name: OTEL_SERVICE_NAME
-        valueFrom:
-          fieldRef:
-            apiVersion: v1
-            fieldPath: "metadata.labels['app.kubernetes.io/component']"
-      - name: OTEL_COLLECTOR_NAME
-        value: 'coroot-opentelemetry-collector'
-      - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
-        value: cumulative
-      - name: OTEL_RESOURCE_ATTRIBUTES
-        value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo
-
 redis:
   fullnameOverride: "redis"
   architecture: standalone
@@ -86,20 +111,18 @@ coroot:
     fullnameOverride: coroot-cluster-agent
   node-agent:
     fullnameOverride: coroot-node-agent
+    env:
+      - name: EPHEMERAL_PORT_RANGE
+        value: "50054-60999"
   clickhouse:
     fullnameOverride: coroot-clickhouse
     auth:
       password: "clickhouse_password"
   prometheus:
     server:
-      service:
-        type: NodePort
-        nodePort: 30002
       fullnameOverride: coroot-prometheus-server
     kube-state-metrics:
       fullnameOverride: coroot-kube-state-metrics
-  opentelemetry-collector:
-    fullnameOverride: coroot-opentelemetry-collector
 
 chaos-mesh:
   rbac:
