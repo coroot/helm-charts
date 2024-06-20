@@ -144,6 +144,29 @@ entries:
   coroot:
   - apiVersion: v2
     appVersion: 1.2.0
+    created: "2024-06-20T14:03:01.196084633Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 15.16.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://coroot.github.io/helm-charts
+      version: 0.1.77
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 3.1.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 53ad28eaa851a262636201ae4fb31744f7ab7399c15d3e2c36f932b1fc341344
+    name: coroot
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-0.12.2/coroot-0.12.2.tgz
+    version: 0.12.2
+  - apiVersion: v2
+    appVersion: 1.2.0
     created: "2024-06-13T12:26:55.724669013Z"
     dependencies:
     - condition: prometheus.enabled
@@ -4759,6 +4782,17 @@ entries:
     version: 0.1.1
   node-agent:
   - apiVersion: v2
+    appVersion: 1.20.2
+    created: "2024-06-20T14:03:01.315430229Z"
+    description: A Prometheus exporter based on eBPF that gathers comprehensive container
+      metrics.
+    digest: b9d8f6f9ede1e8a72cc9cc4e1b503ac49250d03bd24df7403fd7b587ce93128c
+    name: node-agent
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.78/node-agent-0.1.78.tgz
+    version: 0.1.78
+  - apiVersion: v2
     appVersion: 1.20.1
     created: "2024-06-17T13:18:43.702931488Z"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
@@ -5635,4 +5669,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2024-06-17T13:18:43.703523761Z"
+generated: "2024-06-20T14:03:01.31646913Z"
