@@ -105,13 +105,24 @@ corootClusterAgent:
   config:
     listen: :8080
     coroot_url: http://coroot:8080
+    api_key:
+    config:
+      update:
+        interval: 60s
+        timeout: 10s
+    metrics:
+      scrape:
+        interval: 15s
+        timeout: 10s
+      wal_dir:
     profiles:
       scrape:
         interval: 1m
+        timeout: 10s
   image:
     repository: ghcr.io/coroot/coroot-cluster-agent
     pullPolicy: IfNotPresent
-    tag: "0.2.0"
+    tag: "1.0.3"
   imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}

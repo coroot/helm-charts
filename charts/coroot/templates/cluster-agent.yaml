@@ -24,18 +24,6 @@ roleRef:
 ---
 
 apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "corootClusterAgent.name" . }}
-  labels:
-    {{- include "corootClusterAgent.labels" . | nindent 4 }}
-data:
-  config.yaml: |
-  {{- toYaml .Values.corootClusterAgent.config | nindent 4 }}
-
----
-
-apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "corootClusterAgent.name" . }}
@@ -85,19 +73,39 @@ spec:
             {{- toYaml .Values.corootClusterAgent.securityContext | nindent 12 }}
           image: "{{ .Values.corootClusterAgent.image.repository }}:{{ .Values.corootClusterAgent.image.tag }}"
           imagePullPolicy: {{ .Values.corootClusterAgent.image.pullPolicy }}
+          env:
+            - name: LISTEN
+              value: "{{ .Values.corootClusterAgent.config.listen }}"
+            - name: COROOT_URL
+              value: "{{ .Values.corootClusterAgent.config.coroot_url }}"
+            - name: API_KEY
+              value: "{{ .Values.corootClusterAgent.config.api_key }}"
+            - name: CONFIG_UPDATE_INTERVAL
+              value: "{{ .Values.corootClusterAgent.config.config.update.interval }}"
+            - name: CONFIG_UPDATE_TIMEOUT
+              value: "{{ .Values.corootClusterAgent.config.config.update.timeout }}"
+            - name: METRICS_SCRAPE_INTERVAL
+              value: "{{ .Values.corootClusterAgent.config.metrics.scrape.interval }}"
+            - name: METRICS_SCRAPE_TIMEOUT
+              value: "{{ .Values.corootClusterAgent.config.metrics.scrape.timeout }}"
+            - name: METRICS_WAL_DIR
+              value: "{{ .Values.corootClusterAgent.config.metrics.wal_dir }}"
+            - name: PROFILES_SCRAPE_INTERVAL
+              value: "{{ .Values.corootClusterAgent.config.profiles.scrape.interval }}"
+            - name: PROFILES_SCRAPE_TIMEOUT
+              value: "{{ .Values.corootClusterAgent.config.profiles.scrape.timeout }}"
           {{- with .Values.corootClusterAgent.env }}
           {{- . | toYaml | nindent 12 }}
           {{- end }}
           resources:
             {{- toYaml .Values.corootClusterAgent.resources | nindent 12 }}
           volumeMounts:
-            - name: config
-              mountPath: /config.yaml
-              subPath: config.yaml
+            - mountPath: /tmp
+              name: tmp
+              readOnly: false
       volumes:
-        - name: config
-          configMap:
-            name: {{ include "corootClusterAgent.name" . }}
+        - emptyDir: {}
+          name: tmp
       {{- with .Values.corootClusterAgent.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
