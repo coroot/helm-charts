@@ -1,0 +1,16 @@
+{{- if .Values.podMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: coroot-node-agent
+  {{- if .Values.podMonitor.labels }}
+  labels:
+  {{ .Values.podMonitor.labels | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: coroot-node-agent
+  podMetricsEndpoints:
+    - port: http
+{{- end -}}
