@@ -49,3 +49,13 @@ Selector labels
 app.kubernetes.io/name: {{ include "node-agent.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Affinity for pod assignment
+*/}}
+{{- define "node-agent.affinity" -}}
+{{- with .Values.affinity }}
+affinity:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
