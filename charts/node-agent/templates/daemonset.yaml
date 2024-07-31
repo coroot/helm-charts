@@ -24,6 +24,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- include "node-agent.affinity" . | nindent 6 }}
       tolerations:
         - operator: Exists
       priorityClassName: {{ .Values.priorityClassName }}
