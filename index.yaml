@@ -5013,6 +5013,17 @@ entries:
   node-agent:
   - apiVersion: v2
     appVersion: 1.21.0
+    created: "2024-07-31T08:08:07.076250633Z"
+    description: A Prometheus exporter based on eBPF that gathers comprehensive container
+      metrics.
+    digest: cc1a3d58fbbb68bff8d4035ab560401c883aa232df3d5c8f2dc20cf1c5a4adcc
+    name: node-agent
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/node-agent-0.1.85/node-agent-0.1.85.tgz
+    version: 0.1.85
+  - apiVersion: v2
+    appVersion: 1.21.0
     created: "2024-07-29T09:44:28.030143657Z"
     description: A Prometheus exporter based on eBPF that gathers comprehensive container
       metrics.
@@ -5965,4 +5976,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-29T13:39:00.270353174Z"
+generated: "2024-07-31T08:08:07.076883124Z"
