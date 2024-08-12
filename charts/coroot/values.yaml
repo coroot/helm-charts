@@ -416,6 +416,17 @@ node-agent:
   logsEndpoint: "http://coroot:8080/v1/logs"
   profilesEndpoint: "http://coroot:8080/v1/profiles"
 
+existingPostgre:
+  enabled: false
+  connectionString: ""
+
+existingClickhouse:
+  enabled: false
+  address: ""
+  database: ""
+  username: ""
+  password: ""
+
 clickhouse:
   enabled: true
   persistence:

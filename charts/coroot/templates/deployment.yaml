@@ -44,6 +44,18 @@ spec:
             - --bootstrap-prometheus-url={{ printf "http://%s:%s" (include "coroot.prometheus.server.fullname" .) (.Values.prometheus.server.service.servicePort | toString ) }}
             - --bootstrap-refresh-interval={{ .Values.corootCE.bootstrap.refreshInterval }}
             {{- end }}
+            {{- if .Values.corootCE.bootstrap.disableUsageStatistics }}
+            - --disable-usage-statistics
+            {{- end }}
+            {{- if .Values.existingClickhouse.enabled }}
+            - --bootstrap-clickhouse-address={{ .Values.existingClickhouse.address }}
+            - --bootstrap-clickhouse-user={{ .Values.existingClickhouse.username }}
+            - --bootstrap-clickhouse-password={{ .Values.existingClickhouse.password }}
+            - --bootstrap-clickhouse-database={{ .Values.existingClickhouse.database }}
+            {{- end }}
+            {{- if .Values.existingPostgre.enabled }}
+            - --pg-connection-string={{ .Values.existingPostgre.connectionString }}
+            {{- end }}
           env:
           {{- if and .Values.clickhouse.enabled }}
             - name: BOOTSTRAP_CLICKHOUSE_ADDRESS
