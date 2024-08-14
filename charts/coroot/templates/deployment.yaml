@@ -58,7 +58,7 @@ spec:
             - name: BOOTSTRAP_CLICKHOUSE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.clickhouse.auth.existingSecret -}}
+                  name: {{ .Values.clickhouse.auth.existingSecret }}
                   key: {{ .Values.clickhouse.auth.existingSecretKey }}
             {{- end }}
             - name: BOOTSTRAP_CLICKHOUSE_USER
