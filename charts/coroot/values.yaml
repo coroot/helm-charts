@@ -424,12 +424,15 @@ clickhouse:
   shards: 1
   zookeeper:
     enabled: false
+  auth:
+    existingSecret: ""
+    existingSecretKey: ""
   extraOverrides: |
     <clickhouse>
       <asynchronous_metric_log remove="1"/>
       <metric_log remove="1"/>
       <query_log remove="1" />
-      <query_thread_log remove="1" />  
+      <query_thread_log remove="1" />
       <query_views_log remove="1" />
       <part_log remove="1"/>
       <text_log remove="1" />

@@ -48,11 +48,19 @@ spec:
           {{- if and .Values.clickhouse.enabled }}
             - name: BOOTSTRAP_CLICKHOUSE_ADDRESS
               value: {{ printf "%s:%s" (include "coroot.clickhouse.fullname" .) (.Values.clickhouse.service.ports.tcp | toString ) }}
+            {{- if .Values.clickhouse.auth.existingSecret }}
+            - name: BOOTSTRAP_CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.clickhouse.auth.existingSecret }}
+                  key: {{ .Values.clickhouse.auth.existingSecretKey }}
+            {{- else }}
             - name: BOOTSTRAP_CLICKHOUSE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "coroot.clickhouse.fullname" . }}
                   key: "admin-password"
+            {{- end }}
             - name: BOOTSTRAP_CLICKHOUSE_USER
               value: {{ .Values.corootCE.bootstrap.clickhouse.username }}
             - name: BOOTSTRAP_CLICKHOUSE_DATABASE
