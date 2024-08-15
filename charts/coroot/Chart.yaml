@@ -2,7 +2,7 @@ apiVersion: v2
 name: coroot
 description: A monitoring and troubleshooting tool for microservice architectures.
 type: application
-version: 0.14.6
+version: 0.14.7
 appVersion: "1.4.2"
 dependencies:
   - name: prometheus
