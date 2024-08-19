@@ -122,7 +122,7 @@ corootClusterAgent:
   image:
     repository: ghcr.io/coroot/coroot-cluster-agent
     pullPolicy: IfNotPresent
-    tag: "1.0.3"
+    tag: "1.0.4"
   imagePullSecrets: []
   podAnnotations: {}
   podSecurityContext: {}
