@@ -6,7 +6,10 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 25%
 podAnnotations: {}
 
 priorityClassName: ""

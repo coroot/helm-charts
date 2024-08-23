@@ -25,6 +25,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- include "node-agent.affinity" . | nindent 6 }}
+      {{- with .Values.updateStrategy }}
+      updateStrategy:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       tolerations:
         - operator: Exists
       priorityClassName: {{ .Values.priorityClassName }}
