@@ -14,7 +14,7 @@ spec:
         {{- include "node-agent.selectorLabels" . | nindent 8 }}
         app: coroot-node-agent
       annotations:
-        prometheus.io/scrape: 'true'
+        prometheus.io/scrape: '{{ .Values.scrape | default true}}'
         prometheus.io/port: '{{ .Values.port }}'
         {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 8 }}
