@@ -23,6 +23,7 @@ resources:
     memory: "1Gi"
 
 port: 80
+scrape: "true"
 
 env: []
 
