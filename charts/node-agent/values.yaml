@@ -9,7 +9,7 @@ fullnameOverride: ""
 updateStrategy:
   type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 25%
+    maxUnavailable: 1
 podAnnotations: {}
 
 priorityClassName: ""
