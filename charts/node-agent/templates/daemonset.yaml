@@ -5,6 +5,10 @@ metadata:
   labels:
     {{- include "node-agent.labels" . | nindent 4 }}
 spec:
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "node-agent.selectorLabels" . | nindent 6 }}
@@ -25,10 +29,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- include "node-agent.affinity" . | nindent 6 }}
-      {{- with .Values.updateStrategy }}
-      updateStrategy:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       tolerations:
         - operator: Exists
       priorityClassName: {{ .Values.priorityClassName }}
@@ -102,3 +102,4 @@ spec:
           name: debugfs
         - emptyDir: {}
           name: tmp
+
