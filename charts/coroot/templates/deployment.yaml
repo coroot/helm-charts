@@ -66,6 +66,35 @@ spec:
             - name: BOOTSTRAP_CLICKHOUSE_DATABASE
               value: {{ .Values.corootCE.bootstrap.clickhouse.database }}
           {{- end }}
+          {{- if and .Values.corootCE.postgres.enabled }}
+            {{- if and .Values.corootCE.postgres.from_secret.enabled }}
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: {{ .Values.corootCE.postgres.from_secret.host_key | default "host" }}
+                  name: {{ .Values.corootCE.postgres.from_secret.name }}
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: {{ .Values.corootCE.postgres.from_secret.user_key | default "user" }}
+                  name: {{ .Values.corootCE.postgres.from_secret.name }}
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: {{ .Values.corootCE.postgres.from_secret.password_key | default "password" }}
+                  name: {{ .Values.corootCE.postgres.from_secret.name }}
+            - name: PG_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  key: {{ .Values.corootCE.postgres.from_secret.dbname_key | default "dbname" }}
+                  name: {{ .Values.corootCE.postgres.from_secret.name }}
+            - name: PG_CONNECTION_STRING
+              value: "host=$(PG_HOST) user=$(PG_USER) password=$(PG_PASSWORD) dbname=$(PG_DBNAME) sslmode=require connect_timeout=1"
+            {{- else }}
+            - name: PG_CONNECTION_STRING
+              value: host={{ .Values.corootCE.postgres.host }} user={{ .Values.corootCE.postgres.user | default "coroot" }} password={{ .Values.corootCE.postgres.password }} dbname={{ .Values.corootCE.postgres.dbname | default "coroot" }} sslmode=require connect_timeout=1
+            {{- end }}
+          {{- end }}
           {{- with .Values.corootCE.env }}
           {{- . | toYaml | nindent 12 }}
           {{- end }}

@@ -61,6 +61,24 @@ corootCE:
   persistentVolume:
     size: 10Gi
     storageClassName: ""
+  postgres:
+    enabled: false
+    # Postgres config entries could be added with the following keys or from
+    # secret with `from_secret` block if from_secret.enabled: true
+    #
+    # example values are defaults
+    #
+    #host: ""
+    #user: coroot
+    #dbname: coroot
+    #password: ""
+    from_secret:
+      enabled: false
+      #name: ""
+      #user_key: user
+      #password_key: password
+      #dbname_key: dbname
+      #host_key: host
   nodeSelector: {}
   tolerations: []
   affinity: {}
