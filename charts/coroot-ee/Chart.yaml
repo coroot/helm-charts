@@ -1,0 +1,5 @@
+apiVersion: v2
+name: coroot-ee
+description: A monitoring and troubleshooting tool for microservice architectures.
+type: application
+version: 0.1.0

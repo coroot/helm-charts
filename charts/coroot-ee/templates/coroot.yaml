@@ -1,0 +1,8 @@
+apiVersion: coroot.com/v1
+kind: Coroot
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  enterpriseEdition:
+    licenseKey: {{ .Values.licenseKey }}
+{{ omit .Values "licenseKey" | toYaml | indent 2 }}
