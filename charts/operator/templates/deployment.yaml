@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coroot-operator
+  labels:
+    app.kubernetes.io/name: coroot-operator
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: coroot-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: coroot-operator
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: coroot-operator
+      containers:
+        - name: operator
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
