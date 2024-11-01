@@ -147,6 +147,21 @@ prometheus:
   kubeStateMetrics:
     enabled: true
   kube-state-metrics:
+    collectors:
+      - namespaces
+      - nodes
+      - daemonsets
+      - deployments
+      - cronjobs
+      - jobs
+      - persistentvolumeclaims
+      - persistentvolumes
+      - pods
+      - replicasets
+      - services
+      - statefulsets
+      - storageclasses
+      - volumeattachments
     metricLabelsAllowlist:
       - pods=[*]
   server:
