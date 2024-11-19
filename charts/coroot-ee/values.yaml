@@ -22,6 +22,10 @@ resources:
 #    cpu:
 #    memory:
 
+#env:
+#  - name:
+#    value:
+
 nodeAgent:
 #  priorityClassName:
 #  updateStrategy:
@@ -35,6 +39,9 @@ nodeAgent:
 #    limits:
 #      cpu:
 #      memory:
+#  env:
+#    - name:
+#      value:
 
 clusterAgent:
 #  resources:
@@ -44,6 +51,9 @@ clusterAgent:
 #    limits:
 #      cpu:
 #      memory:
+#  env:
+#    - name:
+#      value:
 
 prometheus:
   storage:
