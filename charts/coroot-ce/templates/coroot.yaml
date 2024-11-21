@@ -1,0 +1,6 @@
+apiVersion: coroot.com/v1
+kind: Coroot
+metadata:
+  name: {{ .Release.Name }}
+spec:
+{{ .Values | toYaml | indent 2 }}

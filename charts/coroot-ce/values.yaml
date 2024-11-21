@@ -1,0 +1,72 @@
+apiKey:
+metricsRefreshInterval: 15s
+authAnonymousRole:
+authBootstrapAdminPassword:
+
+service:
+#  type: ClusterIP
+#  port: 8080
+#  nodePort:
+
+storage:
+  size: 10Gi
+#  className:
+
+resources:
+#  requests:
+#    cpu: 1
+#    memory: 4Gi
+#  limits:
+#    cpu:
+#    memory:
+
+#env:
+#  - name:
+#    value:
+
+nodeAgent:
+#  priorityClassName:
+#  updateStrategy:
+#    type: RollingUpdate
+#    rollingUpdate:
+#      maxUnavailable: 1
+#  resources:
+#    requests:
+#      cpu:
+#      memory:
+#    limits:
+#      cpu:
+#      memory:
+#  env:
+#    - name:
+#      value:
+
+clusterAgent:
+#  resources:
+#    requests:
+#      cpu:
+#      memory:
+#    limits:
+#      cpu:
+#      memory:
+#  env:
+#    - name:
+#      value:
+
+prometheus:
+  storage:
+    size: 10Gi
+#    className:
+
+clickhouse:
+  shards: 1
+  replicas: 1
+  storage:
+    size: 100Gi
+#    className:
+
+#externalClickhouse:
+#  address:
+#  user:
+#  password:
+#  database:
