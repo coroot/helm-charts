@@ -5405,6 +5405,11 @@ spec:
                   version:
                     type: string
                 type: object
+              postgres:
+                properties:
+                  connectionString:
+                    type: string
+                type: object
               prometheus:
                 properties:
                   affinity:
@@ -6406,6 +6411,8 @@ spec:
                         x-kubernetes-int-or-string: true
                     type: object
                 type: object
+              replicas:
+                type: integer
               resources:
                 description: ResourceRequirements describes the compute resource requirements.
                 properties:

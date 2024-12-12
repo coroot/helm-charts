@@ -3,6 +3,8 @@ metricsRefreshInterval: 15s
 authAnonymousRole:
 authBootstrapAdminPassword:
 
+#replicas: 1
+
 service:
 #  type: ClusterIP
 #  port: 8080
@@ -70,3 +72,6 @@ clickhouse:
 #  user:
 #  password:
 #  database:
+
+#postgres:
+#  connectionString:
