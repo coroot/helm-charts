@@ -5886,6 +5886,15 @@ entries:
     version: 0.1.1
   coroot-ce:
   - apiVersion: v2
+    created: "2025-01-06T08:14:27.120344266Z"
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: f4b2ae990f4349d6d23e32101f78924fc990388bfbdd567c09a047cf30e5e32a
+    name: coroot-ce
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-ce-0.3.0/coroot-ce-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     created: "2024-12-12T11:40:26.79740118Z"
     description: A monitoring and troubleshooting tool for microservice architectures.
     digest: ecdef1ce8129f81ca9352b8832a11d6277dd82eccdfed3d163ee27da3f50bdad
@@ -5905,6 +5914,15 @@ entries:
     version: 0.1.0
   coroot-ee:
   - apiVersion: v2
+    created: "2025-01-06T08:14:27.226994569Z"
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 3658910f2593d422961d16e83f07311f4c0ee7f36d6ec9a50b12a2227e92f95b
+    name: coroot-ee
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-ee-0.3.0/coroot-ee-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     created: "2024-12-12T11:40:26.943300823Z"
     description: A monitoring and troubleshooting tool for microservice architectures.
     digest: 05ffdee21c1db51d414e1ab137618c1a4cd18f5145749135d9cd9af66412f6fb
@@ -5923,6 +5941,16 @@ entries:
     - https://github.com/coroot/helm-charts/releases/download/coroot-ee-0.1.0/coroot-ee-0.1.0.tgz
     version: 0.1.0
   coroot-operator:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2025-01-06T08:14:27.353917102Z"
+    description: A Helm chart to deploy the Coroot Operator for Kubernetes
+    digest: dc08569eb8a42a8ef571d3081a00113f6c6b819f26bd2aeb9335714c0c834668
+    name: coroot-operator
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-operator-0.2.0/coroot-operator-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.0.6
     created: "2024-12-12T11:40:27.081041595Z"
@@ -7160,4 +7188,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2024-12-23T11:44:15.233373281Z"
+generated: "2025-01-06T08:14:27.354450923Z"
