@@ -12,6 +12,12 @@ service:
 #  port: 8080
 #  nodePort:
 
+#ingress:
+#  className:
+#  host:
+#  path: /
+#  tls:
+
 storage:
   size: 10Gi
 #  className:
@@ -76,4 +82,12 @@ clickhouse:
 #  database:
 
 #postgres:
-#  connectionString:
+#  host:
+#  port: 5432
+#  user:
+#  password:
+#  passwordSecret:
+#    name:
+#    key:
+#    params:
+#      sslmode: disable

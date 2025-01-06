@@ -2,4 +2,4 @@ apiVersion: v2
 name: coroot-ce
 description: A monitoring and troubleshooting tool for microservice architectures.
 type: application
-version: 0.2.0
+version: 0.3.0
