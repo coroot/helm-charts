@@ -10,7 +10,7 @@ service:
 #  port: 8080
 #  nodePort:
 
-ingress:
+#ingress:
 #  className:
 #  host:
 #  path: /
