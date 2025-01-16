@@ -13,6 +13,28 @@ corootCE:
     pullPolicy: IfNotPresent
     tag: ""
   imagePullSecrets: []
+  initContainers: []
+    # - name: init-chown
+    #   image: busybox
+    #   securityContext:
+    #     runAsNonRoot: false
+    #     runAsUser: 0
+    #   resources:
+    #     limits:
+    #       cpu: 100m
+    #       memory: 128Mi
+    #     requests:
+    #       cpu: 50m
+    #       memory: 64Mi
+    #   command: ['sh']
+    #   args:
+    #     - "-c"
+    #     - |
+    #       set -ex
+    #       chown 1000:2000 /data
+    #   volumeMounts:
+    #     - name: data
+    #       mountPath: /data
   nameOverride: ""
   fullnameOverride: ""
   serviceAccount:
@@ -28,7 +50,7 @@ corootCE:
     #   - ALL
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
-  # runAsUser: 1000
+    # runAsUser: 1000
   service:
     type: ClusterIP
     port: 8080
