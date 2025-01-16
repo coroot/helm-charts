@@ -9,6 +9,6 @@ roleRef:
   kind: ClusterRole
   name: coroot-operator
 subjects:
-- kind: ServiceAccount
-  name: coroot-operator
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: { { .Values.serviceAccount.name } }
+    namespace: { { .Release.Namespace } }

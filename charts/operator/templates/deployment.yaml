@@ -24,7 +24,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      serviceAccountName: coroot-operator
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
         - name: operator
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
