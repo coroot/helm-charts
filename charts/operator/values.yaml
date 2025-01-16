@@ -1,7 +1,44 @@
+## Service Account configuration
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  name: "coroot-operator"
+
 image:
   repository: ghcr.io/coroot/coroot-operator
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
 
 resources:
   requests:
     cpu: 100m
     memory: 64Mi
+
+## Extra annotations for pods
+podAnnotations: {}
+
+## Configure Pods Security Context
+podSecurityContext:
+  runAsNonRoot: true
+
+## Configure Container Security Context
+containerSecurityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+## Node labels selector for pods assignment
+nodeSelector: {}
+
+## Tolerations for pods assignment
+tolerations: []
+
+## Affinity for pods assignment
+affinity: {}
