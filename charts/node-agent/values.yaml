@@ -37,6 +37,9 @@ tracesEndpoint: ""
 logsEndpoint: ""
 profilesEndpoint: ""
 
+tolerations:
+  - operator: Exists
+
 affinity: {}
   # nodeAffinity:
   #   requiredDuringSchedulingIgnoredDuringExecution:
