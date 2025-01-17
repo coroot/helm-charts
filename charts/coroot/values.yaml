@@ -166,6 +166,8 @@ prometheus:
       - pods=[*]
   server:
     enabled: true
+    image:
+      tag: v2.55.1
     global:
       scrape_interval: 15s
     retention: 1d
@@ -433,6 +435,8 @@ node-agent:
 
 clickhouse:
   enabled: true
+  image:
+    tag: 24.12.3
   persistence:
     size: 50Gi
   replicaCount: 1
