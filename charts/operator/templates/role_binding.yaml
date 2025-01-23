@@ -10,5 +10,5 @@ roleRef:
   name: coroot-operator
 subjects:
   - kind: ServiceAccount
-    name: { { .Values.serviceAccount.name } }
-    namespace: { { .Release.Namespace } }
+    name: {{ .Values.serviceAccount.name }}
+    namespace: {{ .Release.Namespace }}
