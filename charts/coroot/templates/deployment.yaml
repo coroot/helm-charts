@@ -28,6 +28,10 @@ spec:
       serviceAccountName: {{ include "coroot.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.corootCE.podSecurityContext | nindent 8 }}
+      {{- if .Values.corootCE.initContainers }}
+      initContainers:
+        {{- toYaml .Values.corootCE.initContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
