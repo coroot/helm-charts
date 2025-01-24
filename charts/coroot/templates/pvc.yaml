@@ -1,4 +1,4 @@
-{{- if .Values.corootCE.enabled -}}
+{{- if and .Values.corootCE.enabled (not .Values.corootCE.useStatefulSet) -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:

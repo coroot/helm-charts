@@ -1,10 +1,14 @@
 corootCE:
   enabled: true
+  # useStatefulSet - Only for HA mode when use PostgreSQL
+  # https://docs.coroot.com/configuration/high-availability
+  useStatefulSet: false
   bootstrap:
     refreshInterval: 15s
     clickhouse:
       database: default
       username: default
+  # replicas - can set more 1 when set `useStatefulSet: true`
   replicas: 1
   strategy:
     type: Recreate
