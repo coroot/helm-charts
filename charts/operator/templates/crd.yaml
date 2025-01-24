@@ -958,19 +958,30 @@ spec:
                     type: object
                 type: object
               agentsOnly:
+                description: Configures the operator to install only the node-agent
+                  and cluster-agent.
                 properties:
                   corootURL:
+                    description: URL of the Coroot instance to which agents send metrics,
+                      logs, traces, and profiles.
                     type: string
                 type: object
               apiKey:
+                description: The API key used by agents when sending telemetry to
+                  Coroot.
                 type: string
               authAnonymousRole:
+                description: Allows access to Coroot without authentication if set
+                  (one of Admin, Editor, or Viewer).
                 type: string
               authBootstrapAdminPassword:
+                description: Initial admin password for bootstrapping.
                 type: string
               cacheTTL:
+                description: Duration for which Coroot retains the metric cache.
                 type: string
               clickhouse:
+                description: Clickhouse configuration.
                 properties:
                   affinity:
                     description: Affinity is a group of affinity scheduling rules.
@@ -2836,6 +2847,7 @@ spec:
                       podAnnotations:
                         additionalProperties:
                           type: string
+                        description: Annotations for clickhouse-keeper pods.
                         type: object
                       resources:
                         description: ResourceRequirements describes the compute resource
@@ -2898,13 +2910,17 @@ spec:
                             type: object
                         type: object
                       storage:
+                        description: Storage configuration for clickhouse-keeper.
                         properties:
                           className:
+                            description: If not set, the default storage class will
+                              be used.
                             type: string
                           size:
                             anyOf:
                             - type: integer
                             - type: string
+                            description: Volume size
                             pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                             x-kubernetes-int-or-string: true
                         type: object
@@ -2950,6 +2966,7 @@ spec:
                   podAnnotations:
                     additionalProperties:
                       type: string
+                    description: Annotations for clickhouse pods.
                     type: object
                   replicas:
                     type: integer
@@ -3016,13 +3033,17 @@ spec:
                   shards:
                     type: integer
                   storage:
+                    description: Storage configuration for clickhouse.
                     properties:
                       className:
+                        description: If not set, the default storage class will be
+                          used.
                         type: string
                       size:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: Volume size
                         pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                         x-kubernetes-int-or-string: true
                     type: object
@@ -3995,6 +4016,7 @@ spec:
                         type: object
                     type: object
                   env:
+                    description: Environment variables for the cluster-agent.
                     items:
                       description: EnvVar represents an environment variable present
                         in a Container.
@@ -4116,6 +4138,7 @@ spec:
                   podAnnotations:
                     additionalProperties:
                       type: string
+                    description: Annotations for cluster-agent pods.
                     type: object
                   resources:
                     description: ResourceRequirements describes the compute resource
@@ -4216,21 +4239,33 @@ spec:
                       type: object
                     type: array
                   version:
+                    description: If unspecified, the operator will automatically update
+                      the cluster-agent to the latest version.
                     type: string
                 type: object
               communityEdition:
+                description: Configurations for Coroot Community Edition.
                 properties:
                   version:
+                    description: If unspecified, the operator will automatically update
+                      Coroot CE to the latest version.
                     type: string
                 type: object
               enterpriseEdition:
+                description: Configurations for Coroot Enterprise Edition.
                 properties:
                   licenseKey:
+                    description: |-
+                      License key for Coroot Enterprise Edition.
+                      You can get the Coroot Enterprise license and start a free trial anytime through the Coroot Customer Portal: https://coroot.com/account.
                     type: string
                   version:
+                    description: If unspecified, the operator will automatically update
+                      Coroot EE to the latest version.
                     type: string
                 type: object
               env:
+                description: Environment variables for Coroot.
                 items:
                   description: EnvVar represents an environment variable present in
                     a Container.
@@ -4348,15 +4383,22 @@ spec:
                   type: object
                 type: array
               externalClickhouse:
+                description: Use an external ClickHouse instance instead of deploying
+                  one.
                 properties:
                   address:
+                    description: Address of the external ClickHouse instance.
                     type: string
                   database:
+                    description: Name of the database to be used.
                     type: string
                   password:
+                    description: Password for accessing the external ClickHouse (plain-text,
+                      not recommended).
                     type: string
                   passwordSecret:
-                    description: SecretKeySelector selects a key of a Secret.
+                    description: Secret containing password for accessing the external
+                      ClickHouse.
                     properties:
                       key:
                         description: The key of the secret to select from.  Must be
@@ -4380,15 +4422,21 @@ spec:
                     type: object
                     x-kubernetes-map-type: atomic
                   user:
+                    description: Username for accessing the external ClickHouse.
                     type: string
                 type: object
               ingress:
+                description: Ingress configuration for Coroot.
                 properties:
                   className:
+                    description: Ingress class name (e.g., nginx, traefik; if not
+                      set the default IngressClass will be used).
                     type: string
                   host:
+                    description: Domain name for Coroot (e.g., coroot.company.com).
                     type: string
                   path:
+                    description: Path prefix for Coroot (e.g., /coroot).
                     type: string
                   tls:
                     description: IngressTLS describes the transport layer security
@@ -4415,6 +4463,7 @@ spec:
                     type: object
                 type: object
               metricsRefreshInterval:
+                description: Specifies the metric resolution interval.
                 type: string
               nodeAgent:
                 properties:
@@ -5346,6 +5395,7 @@ spec:
                         type: object
                     type: object
                   env:
+                    description: Environment variables for the node-agent.
                     items:
                       description: EnvVar represents an environment variable present
                         in a Container.
@@ -5467,8 +5517,10 @@ spec:
                   podAnnotations:
                     additionalProperties:
                       type: string
+                    description: Annotations for node-agent pods.
                     type: object
                   priorityClassName:
+                    description: Priority class for the node-agent pods.
                     type: string
                   resources:
                     description: ResourceRequirements describes the compute resource
@@ -5627,26 +5679,36 @@ spec:
                         type: string
                     type: object
                   version:
+                    description: If unspecified, the operator will automatically update
+                      the node-agent to the latest version.
                     type: string
                 type: object
               podAnnotations:
                 additionalProperties:
                   type: string
+                description: Annotations for Coroot pods.
                 type: object
               postgres:
+                description: Store configuration in a Postgres DB instead of SQLite
+                  (required if replicas > 1).
                 properties:
                   database:
+                    description: Name of the database.
                     type: string
                   host:
+                    description: Postgres host or service name.
                     type: string
                   params:
                     additionalProperties:
                       type: string
+                    description: Extra parameters, e.g., sslmode and connect_timeout.
                     type: object
                   password:
+                    description: Password for accessing postgres (plain-text, not
+                      recommended).
                     type: string
                   passwordSecret:
-                    description: SecretKeySelector selects a key of a Secret.
+                    description: Secret containing password for accessing postgres.
                     properties:
                       key:
                         description: The key of the secret to select from.  Must be
@@ -5670,20 +5732,28 @@ spec:
                     type: object
                     x-kubernetes-map-type: atomic
                   port:
+                    description: Postgres port (optional, default 5432).
                     format: int32
                     type: integer
                   user:
+                    description: Username for accessing Postgres.
                     type: string
                 type: object
               projects:
+                description: Projects configuration (Coroot will create or update
+                  projects the specified projects).
                 items:
                   properties:
                     apiKeys:
+                      description: Project API keys, used by agents to send telemetry
+                        data (required).
                       items:
                         properties:
                           description:
+                            description: API key description (optional).
                             type: string
                           key:
+                            description: Random string or UUID (must be unique; required).
                             type: string
                         required:
                         - key
@@ -5691,6 +5761,7 @@ spec:
                       minItems: 1
                       type: array
                     name:
+                      description: Project name (e.g., production, staging; required).
                       type: string
                   required:
                   - apiKeys
@@ -5698,6 +5769,7 @@ spec:
                   type: object
                 type: array
               prometheus:
+                description: Prometheus configuration.
                 properties:
                   affinity:
                     description: Affinity is a group of affinity scheduling rules.
@@ -6629,6 +6701,7 @@ spec:
                   podAnnotations:
                     additionalProperties:
                       type: string
+                    description: Annotations for prometheus pods.
                     type: object
                   resources:
                     description: ResourceRequirements describes the compute resource
@@ -6693,11 +6766,14 @@ spec:
                   storage:
                     properties:
                       className:
+                        description: If not set, the default storage class will be
+                          used.
                         type: string
                       size:
                         anyOf:
                         - type: integer
                         - type: string
+                        description: Volume size
                         pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                         x-kubernetes-int-or-string: true
                     type: object
@@ -6741,6 +6817,7 @@ spec:
                     type: array
                 type: object
               replicas:
+                description: Number of Coroot StatefulSet pods.
                 type: integer
               resources:
                 description: ResourceRequirements describes the compute resource requirements.
@@ -6802,26 +6879,31 @@ spec:
                     type: object
                 type: object
               service:
+                description: Service configuration for Coroot.
                 properties:
                   nodePort:
+                    description: NodePort number (if type is NodePort).
                     format: int32
                     type: integer
                   port:
+                    description: Service port number.
                     format: int32
                     type: integer
                   type:
-                    description: Service Type string describes ingress methods for
-                      a service
+                    description: Service type (e.g., ClusterIP, NodePort, LoadBalancer).
                     type: string
                 type: object
               storage:
+                description: Storage configuration for Coroot.
                 properties:
                   className:
+                    description: If not set, the default storage class will be used.
                     type: string
                   size:
                     anyOf:
                     - type: integer
                     - type: string
+                    description: Volume size
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                 type: object
