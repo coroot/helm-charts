@@ -181,6 +181,7 @@ prometheus:
       - pods
       - replicasets
       - services
+      - endpoints
       - statefulsets
       - storageclasses
       - volumeattachments
