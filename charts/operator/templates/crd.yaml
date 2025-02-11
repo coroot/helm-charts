@@ -1910,6 +1910,42 @@ spec:
                             x-kubernetes-list-type: atomic
                         type: object
                     type: object
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
                   keeper:
                     properties:
                       affinity:
@@ -2844,6 +2880,42 @@ spec:
                                 x-kubernetes-list-type: atomic
                             type: object
                         type: object
+                      image:
+                        description: |-
+                          ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                          If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                        properties:
+                          name:
+                            description: |-
+                              Name specifies the full image reference, including registry, component, and tag.
+                              E.g.: <private-registry>/<component-name>:<component-version>
+                            type: string
+                          pullPolicy:
+                            description: PullPolicy defines the image pull policy
+                              (e.g., Always, IfNotPresent, Never).
+                            type: string
+                          pullSecrets:
+                            description: PullSecrets contains a list of references
+                              to Kubernetes secrets used for pulling the image from
+                              a private registry.
+                            items:
+                              description: |-
+                                LocalObjectReference contains enough information to let you locate the
+                                referenced object inside the same namespace.
+                              properties:
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                              type: object
+                              x-kubernetes-map-type: atomic
+                            type: array
+                        type: object
                       podAnnotations:
                         additionalProperties:
                           type: string
@@ -2915,6 +2987,10 @@ spec:
                           className:
                             description: If not set, the default storage class will
                               be used.
+                            type: string
+                          reclaimPolicy:
+                            description: Valid options are Retain (keep PVC), or Delete
+                              (default)
                             type: string
                           size:
                             anyOf:
@@ -3038,6 +3114,10 @@ spec:
                       className:
                         description: If not set, the default storage class will be
                           used.
+                        type: string
+                      reclaimPolicy:
+                        description: Valid options are Retain (keep PVC), or Delete
+                          (default)
                         type: string
                       size:
                         anyOf:
@@ -4135,6 +4215,81 @@ spec:
                       - name
                       type: object
                     type: array
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
+                  kubeStateMetrics:
+                    properties:
+                      image:
+                        description: |-
+                          ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                          If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                        properties:
+                          name:
+                            description: |-
+                              Name specifies the full image reference, including registry, component, and tag.
+                              E.g.: <private-registry>/<component-name>:<component-version>
+                            type: string
+                          pullPolicy:
+                            description: PullPolicy defines the image pull policy
+                              (e.g., Always, IfNotPresent, Never).
+                            type: string
+                          pullSecrets:
+                            description: PullSecrets contains a list of references
+                              to Kubernetes secrets used for pulling the image from
+                              a private registry.
+                            items:
+                              description: |-
+                                LocalObjectReference contains enough information to let you locate the
+                                referenced object inside the same namespace.
+                              properties:
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                              type: object
+                              x-kubernetes-map-type: atomic
+                            type: array
+                        type: object
+                    type: object
                   podAnnotations:
                     additionalProperties:
                       type: string
@@ -4238,30 +4393,90 @@ spec:
                           type: string
                       type: object
                     type: array
-                  version:
-                    description: If unspecified, the operator will automatically update
-                      the cluster-agent to the latest version.
-                    type: string
                 type: object
               communityEdition:
                 description: Configurations for Coroot Community Edition.
                 properties:
-                  version:
-                    description: If unspecified, the operator will automatically update
-                      Coroot CE to the latest version.
-                    type: string
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
                 type: object
               enterpriseEdition:
                 description: Configurations for Coroot Enterprise Edition.
                 properties:
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
                   licenseKey:
                     description: |-
                       License key for Coroot Enterprise Edition.
                       You can get the Coroot Enterprise license and start a free trial anytime through the Coroot Customer Portal: https://coroot.com/account.
-                    type: string
-                  version:
-                    description: If unspecified, the operator will automatically update
-                      Coroot EE to the latest version.
                     type: string
                 type: object
               env:
@@ -4425,9 +4640,72 @@ spec:
                     description: Username for accessing the external ClickHouse.
                     type: string
                 type: object
+              externalPrometheus:
+                description: Use an external Prometheus instance instead of deploying
+                  one.
+                properties:
+                  basicAuth:
+                    description: Basic auth credentials.
+                    properties:
+                      password:
+                        type: string
+                      passwordSecret:
+                        description: Secret containing password. If specified, this
+                          takes precedence over the Password field.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      username:
+                        type: string
+                    type: object
+                  customHeaders:
+                    additionalProperties:
+                      type: string
+                    description: Custom headers to include in requests to the Prometheus
+                      server.
+                    type: object
+                  remoteWriteURL:
+                    description: The URL for metric ingestion though the Prometheus
+                      Remote Write protocol (optional).
+                    pattern: ^https?://.+$
+                    type: string
+                  tlsSkipVerify:
+                    description: Whether to skip verification of the Prometheus server's
+                      TLS certificate.
+                    type: boolean
+                  url:
+                    description: http(s)://IP:Port or http(s)://Domain:Port or http(s)://Service
+                      Name:Port
+                    pattern: ^https?://.+$
+                    type: string
+                type: object
               ingress:
                 description: Ingress configuration for Coroot.
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: Annotations for Ingress.
+                    type: object
                   className:
                     description: Ingress class name (e.g., nginx, traefik; if not
                       set the default IngressClass will be used).
@@ -5514,6 +5792,42 @@ spec:
                       - name
                       type: object
                     type: array
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
                   podAnnotations:
                     additionalProperties:
                       type: string
@@ -5678,10 +5992,6 @@ spec:
                           or "OnDelete". Default is RollingUpdate.
                         type: string
                     type: object
-                  version:
-                    description: If unspecified, the operator will automatically update
-                      the node-agent to the latest version.
-                    type: string
                 type: object
               podAnnotations:
                 additionalProperties:
@@ -6698,6 +7008,42 @@ spec:
                             x-kubernetes-list-type: atomic
                         type: object
                     type: object
+                  image:
+                    description: |-
+                      ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
+                      If unspecified, the operator will automatically update its components to the latest versions from Coroot's public registry.
+                    properties:
+                      name:
+                        description: |-
+                          Name specifies the full image reference, including registry, component, and tag.
+                          E.g.: <private-registry>/<component-name>:<component-version>
+                        type: string
+                      pullPolicy:
+                        description: PullPolicy defines the image pull policy (e.g.,
+                          Always, IfNotPresent, Never).
+                        type: string
+                      pullSecrets:
+                        description: PullSecrets contains a list of references to
+                          Kubernetes secrets used for pulling the image from a private
+                          registry.
+                        items:
+                          description: |-
+                            LocalObjectReference contains enough information to let you locate the
+                            referenced object inside the same namespace.
+                          properties:
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        type: array
+                    type: object
                   podAnnotations:
                     additionalProperties:
                       type: string
@@ -6763,11 +7109,20 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
                         type: object
                     type: object
+                  retention:
+                    description: Metrics retention time (e.g. 4h, 3d, 2w, 1y; default
+                      2d)
+                    pattern: ^[0-9]+[mhdwy]$
+                    type: string
                   storage:
                     properties:
                       className:
                         description: If not set, the default storage class will be
                           used.
+                        type: string
+                      reclaimPolicy:
+                        description: Valid options are Retain (keep PVC), or Delete
+                          (default)
                         type: string
                       size:
                         anyOf:
@@ -6898,6 +7253,9 @@ spec:
                 properties:
                   className:
                     description: If not set, the default storage class will be used.
+                    type: string
+                  reclaimPolicy:
+                    description: Valid options are Retain (keep PVC), or Delete (default)
                     type: string
                   size:
                     anyOf:
