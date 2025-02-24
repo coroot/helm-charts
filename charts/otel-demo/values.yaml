@@ -37,25 +37,25 @@ opentelemetry-demo:
           cpu: 500m
           memory: 500M
       replicas: 1
-    cartService:
+    cart:
       replicas: 1
       resources:
         limits:
           memory: 200M
           cpu: 500m
-    checkoutService:
+    checkout:
       replicas: 1
       resources:
         limits:
           memory: 100M
           cpu: 500m
-    quoteService:
+    quote:
       replicas: 1
-    emailService:
+    email:
       resources:
         limits:
           memory: 300M
-    productCatalogService:
+    product-catalog:
       replicas: 1
       resources:
         requests:
@@ -64,11 +64,11 @@ opentelemetry-demo:
         limits:
           memory: 20M
           cpu: 500m
-    frontendProxy:
+    frontend-proxy:
       service:
         type: NodePort
         nodePort: 30005
-    loadgenerator:
+    load-generator:
       resources:
         limits:
           memory: 500M
