@@ -7720,6 +7720,26 @@ entries:
   otel-demo:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2025-02-26T08:14:04.821615409Z"
+    dependencies:
+    - name: opentelemetry-demo
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.36.0
+    - name: coroot
+      repository: https://coroot.github.io/helm-charts
+      version: 0.18.8
+    - name: chaos-mesh
+      repository: https://charts.chaos-mesh.org
+      version: 2.7.0
+    description: otel-demo
+    digest: 6814dd45deb7de24051f64eba1033d97d57e171836ef62ec4abec314c3a9a184
+    name: otel-demo
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.2/otel-demo-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2024-05-24T10:37:39.299840289Z"
     dependencies:
     - name: opentelemetry-demo
@@ -7758,4 +7778,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-20T11:06:49.094045633Z"
+generated: "2025-02-26T08:14:04.82229682Z"
