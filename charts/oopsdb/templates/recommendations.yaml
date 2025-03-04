@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendations
+spec:
+  selector:
+    matchLabels: {name: recommendations}
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: {name: recommendations}
+    spec:
+      containers:
+        - name: app
+          image: failurepedia/recommendations:0.5
+          command: ["java", "-Xms64M", "-Xmx64M", "-javaagent:/opentelemetry-javaagent.jar", "-jar", "recommendations.jar"]
+          resources:
+            requests: {memory: "100M", cpu: 100m}
+          ports:
+            - containerPort: 8081
+              name: http
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8081}
+            initialDelaySeconds: 1
+            periodSeconds: 1
+          env:
+            - name: OTEL_COLLECTOR_ENDPOINT
+              value: {{ .Values.otel.endpoint }}
+            - name: OTEL_SDK_DISABLED
+              value: "{{ .Values.otel.disabled }}"
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: "http/protobuf"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.name=recommendations
+            - name: TMP_OBJECTS_COUNT
+              value: "1000"
+            - name: TMP_OBJECTS_SIZE
+              value: "100"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendations
+  labels:
+    name: recommendations
+spec:
+  ports:
+    - port: 80
+      targetPort: 8081
+  selector:
+    name: recommendations

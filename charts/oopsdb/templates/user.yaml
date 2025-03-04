@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  labels:
+    name: user
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: user
+  template:
+    metadata:
+      labels:
+        name: user
+    spec:
+      containers:
+        - name: user
+          image: failurepedia/user:1.30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100M
+          ports:
+            - containerPort: 80
+          env:
+            - name: MYSQL_DB
+              value: {{ .Values.mysql.auth.database }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.auth.username }}
+            - name: MYSQL_PASSWORD
+              valueFrom: { secretKeyRef: { name: odb-mysql-secret, key: mysql-password } }
+            - name: MYSQL_HOST
+              value: odb-mysql-primary
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "service.name=user"
+            - name: OPENTELEMETRY_COLLECTOR_ENDPOINT
+              value: {{ .Values.otel.endpoint }}
+            - name: OTEL_SDK_DISABLED
+              value: "{{ .Values.otel.disabled }}"
+            - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
+              value: "http/protobuf"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  labels:
+    name: user
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: user

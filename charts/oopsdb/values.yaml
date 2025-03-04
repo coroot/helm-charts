@@ -1,0 +1,37 @@
+otel:
+  disabled: "true"
+  endpoint: "" #"coroot-coroot.coroot:8080"
+
+postgres-operator:
+  configKubernetes:
+    enable_finalizers: true
+
+mysql:
+  architecture: replication
+  auth:
+    username: "app"
+    database: "app"
+    createDatabase: true
+    existingSecret: "{{ .Release.Name }}-mysql-secret"
+
+mongodb:
+  architecture: replicaset
+  auth:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  livenessProbe:
+    enabled: false
+
+redis:
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+
+
+
+
+

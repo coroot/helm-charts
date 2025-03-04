@@ -1,0 +1,29 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: odb-postgres
+  namespace: default
+spec:
+  teamId: db
+  volume:
+    size: 10Gi
+  numberOfInstances: 3
+  users:
+    coroot: [superuser]
+    demo: []
+  databases:
+    demo: demo
+  postgresql:
+    version: "17"
+    parameters:
+      work_mem: "512MB"
+      track_io_timing: "on"
+  enableConnectionPooler: false
+  enableReplicaConnectionPooler: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 2Gi
+    limits:
+      cpu: "4"
+      memory: 8Gi

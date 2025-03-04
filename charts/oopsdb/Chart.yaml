@@ -1,0 +1,24 @@
+apiVersion: v2
+name: oopsdb
+description: A Helm chart to deploy the demo services for OopsDB
+type: application
+version: 0.1.0
+appVersion: "1.1.5"
+dependencies:
+  - name: postgres-operator
+    repository: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+    version: 1.14.0
+  - name: mysql
+    repository: "https://charts.bitnami.com/bitnami"
+    version: 12.2.2
+  - name: mongodb
+    repository: "https://charts.bitnami.com/bitnami"
+    version: 16.4.3
+  - name: redis
+    repository: "https://charts.bitnami.com/bitnami"
+    version: 20.7.0
+  - name: memcached
+    repository: "https://charts.bitnami.com/bitnami"
+    version: 7.6.3
+
+
