@@ -1,4 +1,5 @@
 {{- if .Values.corootClusterAgent.enabled -}}
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -11,14 +12,14 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "corootClusterAgent.name" . }}
+  name: {{ include "corootClusterAgent.name" . }}-helm
 subjects:
   - kind: ServiceAccount
     name: {{ include "corootClusterAgent.name" . }}
     namespace: {{ include "coroot.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: view
+  name: {{ include "corootClusterAgent.name" . }}
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -118,4 +119,60 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "corootClusterAgent.name" . }}
+  labels:
+    {{- include "corootClusterAgent.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - nodes
+      - pods
+      - services
+      - endpoints
+      - persistentvolumeclaims
+      - persistentvolumes
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - replicasets
+      - daemonsets
+      - statefulsets
+      - cronjobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - batch
+    resources:
+      - cronjobs
+      - jobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - volumeattachments
+    verbs:
+      - get
+      - list
+      - watch
+
 {{- end -}}
