@@ -1,14 +1,13 @@
-{{- if and .Values.corootCE.enabled (not .Values.corootCE.useStatefulSet) -}}
+{{- if and .Values.corootCE.enabled .Values.corootCE.useStatefulSet -}}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "coroot.fullname" . }}
   labels:
     {{- include "coroot.labels" . | nindent 4 }}
 spec:
-  replicas: 1
-  strategy:
-    {{- toYaml .Values.corootCE.strategy | nindent 4 }}
+  serviceName: "{{ include "coroot.fullname" . }}"
+  replicas: {{ .Values.corootCE.replicas }}
   selector:
     matchLabels:
       {{- include "coroot.selectorLabels" . | nindent 6 }}
@@ -86,10 +85,18 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ template "coroot.fullname" . }}-data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: 
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: {{ .Values.corootCE.persistentVolume.size | quote }}
+      {{- with .Values.corootCE.persistentVolume.storageClassName }}
+        storageClassName: {{ . }}
+      {{- end }}
       {{- with .Values.corootCE.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
