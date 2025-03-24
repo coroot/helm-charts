@@ -186,7 +186,9 @@ prometheus:
       - storageclasses
       - volumeattachments
     metricLabelsAllowlist:
-      - pods=[*]
+      - "pods=[*]"
+    metricAnnotationsAllowList:
+      - "*=[coroot.com/application-category,coroot.com/custom-application-name]"
   server:
     enabled: true
     image:
