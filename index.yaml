@@ -8094,6 +8094,32 @@ entries:
   oopsdb:
   - apiVersion: v2
     appVersion: 1.1.5
+    created: "2025-03-27T09:22:25.725440358Z"
+    dependencies:
+    - name: postgres-operator
+      repository: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+      version: 1.14.0
+    - name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.2.2
+    - name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.4.3
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.7.0
+    - name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.6.3
+    description: A Helm chart to deploy the demo services for OopsDB
+    digest: c83c6888cc2505981b3d5e7a0a88840b78fe38e2043b47aebe4ebbd8a6e359c4
+    name: oopsdb
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/oopsdb-0.1.1/oopsdb-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.1.5
     created: "2025-03-04T09:18:07.575077407Z"
     dependencies:
     - name: postgres-operator
@@ -8179,4 +8205,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-24T13:48:30.891646064Z"
+generated: "2025-03-27T09:22:25.725922192Z"
