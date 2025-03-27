@@ -13,8 +13,25 @@ mysql:
     database: "app"
     createDatabase: true
     existingSecret: "{{ .Release.Name }}-mysql-secret"
+  primary:
+    podAnnotations:
+      coroot.com/mysql-scrape: "true"
+      coroot.com/mysql-scrape-port: "3306"
+      coroot.com/mysql-scrape-credentials-username: "root"
+      coroot.com/mysql-scrape-credentials-secret-name: "{{ .Release.Name }}-mysql-secret"
+      coroot.com/mysql-scrape-credentials-secret-password-key: "mysql-root-password"
+  secondary:
+    podAnnotations:
+      coroot.com/mysql-scrape: "true"
+      coroot.com/mysql-scrape-port: "3306"
+      coroot.com/mysql-scrape-credentials-username: "root"
+      coroot.com/mysql-scrape-credentials-secret-name: "{{ .Release.Name }}-mysql-secret"
+      coroot.com/mysql-scrape-credentials-secret-password-key: "mysql-root-password"
 
 mongodb:
+  podAnnotations:
+    coroot.com/mongodb-scrape: "true"
+    coroot.com/mongodb-scrape-port: "27017"
   architecture: replicaset
   auth:
     enabled: false
@@ -23,13 +40,25 @@ mongodb:
   livenessProbe:
     enabled: false
 
+memcached:
+  podAnnotations:
+    coroot.com/memcached-scrape: "true"
+    coroot.com/memcached-scrape-port: "11211"
+
 redis:
   architecture: standalone
   auth:
     enabled: false
   master:
+    podAnnotations:
+      coroot.com/redis-scrape: "true"
+      coroot.com/redis-scrape-port: "6379"
     persistence:
       enabled: true
+
+
+
+
 
 
 

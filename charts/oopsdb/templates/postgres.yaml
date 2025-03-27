@@ -27,3 +27,9 @@ spec:
     limits:
       cpu: "4"
       memory: 8Gi
+  podAnnotations:
+    coroot.com/postgres-scrape: "false"
+    coroot.com/postgres-scrape-credentials-secret-name: coroot.odb-postgres.credentials.postgresql.acid.zalan.do
+    coroot.com/postgres-scrape-credentials-secret-username-key: username
+    coroot.com/postgres-scrape-credentials-secret-password-key: password
+    coroot.com/postgres-scrape-param-sslmode: require

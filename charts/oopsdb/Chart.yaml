@@ -2,7 +2,7 @@ apiVersion: v2
 name: oopsdb
 description: A Helm chart to deploy the demo services for OopsDB
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "1.1.5"
 dependencies:
   - name: postgres-operator
