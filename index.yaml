@@ -143,6 +143,29 @@ entries:
     version: 0.1.0
   coroot:
   - apiVersion: v2
+    appVersion: 1.9.8
+    created: "2025-03-28T15:33:24.777444449Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 15.16.*
+    - condition: node-agent.enabled
+      name: node-agent
+      repository: https://coroot.github.io/helm-charts
+      version: 0.2.16
+    - condition: clickhouse.enabled
+      name: clickhouse
+      repository: https://charts.bitnami.com/bitnami
+      version: 3.1.*
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 2cf2f790cc0b7be1391354b8f427ec293d4cfcc52350186ad2af6def335a1f80
+    name: coroot
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-0.18.24/coroot-0.18.24.tgz
+    version: 0.18.24
+  - apiVersion: v2
     appVersion: 1.9.7
     created: "2025-03-27T09:46:29.082610771Z"
     dependencies:
@@ -8239,4 +8262,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-28T15:29:39.175243145Z"
+generated: "2025-03-28T15:33:24.778199869Z"
