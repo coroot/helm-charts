@@ -965,12 +965,42 @@ spec:
                   corootURL:
                     description: URL of the Coroot instance to which agents send metrics,
                       logs, traces, and profiles.
+                    pattern: ^https?://.+$
                     type: string
+                  tlsSkipVerify:
+                    description: Whether to skip verification of the Coroot server's
+                      TLS certificate.
+                    type: boolean
+                required:
+                - corootURL
                 type: object
               apiKey:
                 description: The API key used by agents when sending telemetry to
                   Coroot.
                 type: string
+              apiKeySecret:
+                description: Secret containing API key.
+                properties:
+                  key:
+                    description: The key of the secret to select from.  Must be a
+                      valid secret key.
+                    type: string
+                  name:
+                    default: ""
+                    description: |-
+                      Name of the referent.
+                      This field is effectively required, but due to backwards compatibility is
+                      allowed to be empty. Instances of this type with an empty value here are
+                      almost certainly wrong.
+                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                    type: string
+                  optional:
+                    description: Specify whether the Secret or its key must be defined
+                    type: boolean
+                required:
+                - key
+                type: object
+                x-kubernetes-map-type: atomic
               authAnonymousRole:
                 description: Allows access to Coroot without authentication if set
                   (one of Admin, Editor, or Viewer).
@@ -3001,7 +3031,7 @@ spec:
                             type: string
                           reclaimPolicy:
                             description: Valid options are Retain (keep PVC), or Delete
-                              (default)
+                              (default).
                             type: string
                           size:
                             anyOf:
@@ -3134,7 +3164,7 @@ spec:
                         type: string
                       reclaimPolicy:
                         description: Valid options are Retain (keep PVC), or Delete
-                          (default)
+                          (default).
                         type: string
                       size:
                         anyOf:
@@ -4501,6 +4531,30 @@ spec:
                       License key for Coroot Enterprise Edition.
                       You can get the Coroot Enterprise license and start a free trial anytime through the Coroot Customer Portal: https://coroot.com/account.
                     type: string
+                  licenseKeySecret:
+                    description: Secret containing the license key.
+                    properties:
+                      key:
+                        description: The key of the secret to select from.  Must be
+                          a valid secret key.
+                        type: string
+                      name:
+                        default: ""
+                        description: |-
+                          Name of the referent.
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        type: string
+                      optional:
+                        description: Specify whether the Secret or its key must be
+                          defined
+                        type: boolean
+                    required:
+                    - key
+                    type: object
+                    x-kubernetes-map-type: atomic
                 type: object
               env:
                 description: Environment variables for Coroot.
@@ -4716,8 +4770,7 @@ spec:
                       TLS certificate.
                     type: boolean
                   url:
-                    description: http(s)://IP:Port or http(s)://Domain:Port or http(s)://Service
-                      Name:Port
+                    description: http(s)://IP:Port or http(s)://Domain:Port or http(s)://ServiceName:Port
                     pattern: ^https?://.+$
                     type: string
                 type: object
@@ -5700,6 +5753,22 @@ spec:
                             x-kubernetes-list-type: atomic
                         type: object
                     type: object
+                  ebpfProfiler:
+                    properties:
+                      enabled:
+                        description: 'Enable or disable eBPF profiler (default: true).'
+                        type: boolean
+                    type: object
+                  ebpfTracer:
+                    properties:
+                      enabled:
+                        description: 'Enable or disable eBPF tracing (default: true).'
+                        type: boolean
+                      sampling:
+                        description: 'Trace sampling rate (0.0 to 1.0; default: 1.0).'
+                        pattern: ^(0([.][0-9]+)?|1([.]0+)?)$
+                        type: string
+                    type: object
                   env:
                     description: Environment variables for the node-agent.
                     items:
@@ -5856,6 +5925,15 @@ spec:
                           x-kubernetes-map-type: atomic
                         type: array
                     type: object
+                  logCollector:
+                    properties:
+                      collectLogBasedMetrics:
+                        description: 'Collect log-based metrics (default: true).'
+                        type: boolean
+                      collectLogEntries:
+                        description: 'Collect log entries (default: true).'
+                        type: boolean
+                    type: object
                   nodeSelector:
                     additionalProperties:
                       type: string
@@ -5967,6 +6045,12 @@ spec:
                             If the operator is Exists, the value should be empty, otherwise just a regular string.
                           type: string
                       type: object
+                    type: array
+                  trackPublicNetworks:
+                    description: 'Allow track connections to the specified IP networks
+                      (e.g., Y.Y.Y.Y/mask, default: 0.0.0.0/0).'
+                    items:
+                      type: string
                     type: array
                   update_strategy:
                     description: DaemonSetUpdateStrategy is a struct used to control
@@ -6108,10 +6192,34 @@ spec:
                             description: API key description (optional).
                             type: string
                           key:
-                            description: Random string or UUID (must be unique; required).
+                            description: Plain-text API key. Must be unique. Prefer
+                              using KeySecret for better security.
                             type: string
-                        required:
-                        - key
+                          keySecret:
+                            description: Secret with the API key. Created automatically
+                              if missing.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
                         type: object
                       minItems: 1
                       type: array
@@ -7095,6 +7203,11 @@ spec:
                     description: NodeSelector restricts scheduling to nodes matching
                       the specified labels.
                     type: object
+                  outOfOrderTimeWindow:
+                    description: Out-of-order time window (e.g. 30s, 10m, 2h; default
+                      1h).
+                    pattern: ^[0-9]+[smhdwy]$
+                    type: string
                   podAnnotations:
                     additionalProperties:
                       type: string
@@ -7162,7 +7275,7 @@ spec:
                     type: object
                   retention:
                     description: Metrics retention time (e.g. 4h, 3d, 2w, 1y; default
-                      2d)
+                      2d).
                     pattern: ^[0-9]+[mhdwy]$
                     type: string
                   storage:
@@ -7173,7 +7286,7 @@ spec:
                         type: string
                       reclaimPolicy:
                         description: Valid options are Retain (keep PVC), or Delete
-                          (default)
+                          (default).
                         type: string
                       size:
                         anyOf:
@@ -7306,7 +7419,7 @@ spec:
                     description: If not set, the default storage class will be used.
                     type: string
                   reclaimPolicy:
-                    description: Valid options are Retain (keep PVC), or Delete (default)
+                    description: Valid options are Retain (keep PVC), or Delete (default).
                     type: string
                   size:
                     anyOf:

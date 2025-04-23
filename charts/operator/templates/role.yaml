@@ -27,6 +27,7 @@ rules:
   - ""
   resources:
   - persistentvolumeclaims
+  - secrets
   - serviceaccounts
   - services
   verbs:
@@ -36,15 +37,6 @@ rules:
   - list
   - patch
   - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - get
-  - list
   - watch
 - apiGroups:
   - apps
