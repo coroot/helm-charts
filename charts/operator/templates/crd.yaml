@@ -7400,6 +7400,11 @@ spec:
               service:
                 description: Service configuration for Coroot.
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: Annotations for the service.
+                    type: object
                   nodePort:
                     description: NodePort number (if type is NodePort).
                     format: int32
