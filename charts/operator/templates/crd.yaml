@@ -974,6 +974,122 @@ spec:
                 required:
                 - corootURL
                 type: object
+              ai:
+                description: AI configuration (Coroot Enterprise Edition only).
+                properties:
+                  anthropic:
+                    description: Anthropic configuration.
+                    properties:
+                      apiKey:
+                        description: Anthropic API key.
+                        type: string
+                      apiKeySecret:
+                        description: Secret containing the API key.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                    type: object
+                  openai:
+                    description: OpenAI configuration.
+                    properties:
+                      apiKey:
+                        description: OpenAI API key.
+                        type: string
+                      apiKeySecret:
+                        description: Secret containing the API key.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                    type: object
+                  openaiCompatible:
+                    description: OpenAI-compatible configuration.
+                    properties:
+                      apiKey:
+                        description: API key.
+                        type: string
+                      apiKeySecret:
+                        description: Secret containing the API key.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      baseURL:
+                        description: Base URL (eg., https://generativelanguage.googleapis.com/v1beta/openai).
+                        pattern: ^https?://.+$
+                        type: string
+                      model:
+                        description: Model name (eg., gemini-2.5-pro-preview-06-05).
+                        type: string
+                    required:
+                    - baseURL
+                    - model
+                    type: object
+                  provider:
+                    description: AI model provider (anthropic, openai, or openai_compatible).
+                    enum:
+                    - anthropic
+                    - openai
+                    - openai_compatible
+                    type: string
+                required:
+                - provider
+                type: object
               apiKey:
                 description: The API key used by agents when sending telemetry to
                   Coroot.
@@ -6180,7 +6296,7 @@ spec:
                 type: string
               projects:
                 description: Projects configuration (Coroot will create or update
-                  projects the specified projects).
+                  the specified projects).
                 items:
                   properties:
                     apiKeys:
@@ -6223,9 +6339,337 @@ spec:
                         type: object
                       minItems: 1
                       type: array
+                    applicationCategories:
+                      description: Application category settings.
+                      items:
+                        properties:
+                          customPatterns:
+                            description: List of glob patterns in the <namespace>/<application_name>
+                              format (e.g., "staging/*", "*/mongo-*").
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            description: Application category name (required).
+                            type: string
+                          notificationSettings:
+                            description: Application category notification settings.
+                            properties:
+                              deployments:
+                                description: Notify of deployments.
+                                properties:
+                                  enabled:
+                                    type: boolean
+                                  slack:
+                                    properties:
+                                      channel:
+                                        type: string
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  teams:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  webhook:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                type: object
+                              incidents:
+                                description: Notify of incidents (SLO violation).
+                                properties:
+                                  enabled:
+                                    type: boolean
+                                  opsgenie:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  pagerduty:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  slack:
+                                    properties:
+                                      channel:
+                                        type: string
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  teams:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                  webhook:
+                                    properties:
+                                      enabled:
+                                        type: boolean
+                                    type: object
+                                type: object
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      type: array
+                    customApplications:
+                      description: Custom applications.
+                      items:
+                        properties:
+                          instancePatterns:
+                            description: List of glob patterns for <instance_name>.
+                            items:
+                              type: string
+                            type: array
+                          name:
+                            description: Custom application name (required).
+                            type: string
+                        required:
+                        - name
+                        type: object
+                      type: array
                     name:
                       description: Project name (e.g., production, staging; required).
                       type: string
+                    notificationIntegrations:
+                      description: Notification integrations.
+                      properties:
+                        baseURL:
+                          description: The URL of Coroot instance (required). Used
+                            for generating links in notifications.
+                          pattern: ^https?://.+$
+                          type: string
+                        opsgenie:
+                          description: Opsgenie configuration.
+                          properties:
+                            apiKey:
+                              description: Opsgenie API Key.
+                              type: string
+                            apiKeySecret:
+                              description: Secret containing the API key.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                            euInstance:
+                              description: EU instance of Opsgenie.
+                              type: boolean
+                            incidents:
+                              description: Notify of incidents (SLO violation).
+                              type: boolean
+                          type: object
+                        pagerduty:
+                          description: PagerDuty configuration.
+                          properties:
+                            incidents:
+                              description: Notify of incidents (SLO violation).
+                              type: boolean
+                            integrationKey:
+                              description: PagerDuty Integration Key.
+                              type: string
+                            integrationKeySecret:
+                              description: Secret containing the Integration Key.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                          type: object
+                        slack:
+                          description: Slack configuration.
+                          properties:
+                            defaultChannel:
+                              description: Default Slack channel name.
+                              type: string
+                            deployments:
+                              description: Notify of deployments.
+                              type: boolean
+                            incidents:
+                              description: Notify of incidents (SLO violation).
+                              type: boolean
+                            token:
+                              description: Slack Bot User OAuth Token.
+                              type: string
+                            tokenSecret:
+                              description: Secret containing the Token.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                          required:
+                          - defaultChannel
+                          type: object
+                        teams:
+                          description: Microsoft Teams configuration.
+                          properties:
+                            deployments:
+                              description: Notify of deployments.
+                              type: boolean
+                            incidents:
+                              description: Notify of incidents (SLO violation).
+                              type: boolean
+                            webhookURL:
+                              description: MS Teams Webhook URL.
+                              type: string
+                            webhookURLSecret:
+                              description: Secret containing the Webhook URL.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                          type: object
+                        webhook:
+                          description: Webhook configuration.
+                          properties:
+                            basicAuth:
+                              description: Basic auth credentials.
+                              properties:
+                                password:
+                                  type: string
+                                passwordSecret:
+                                  description: Secret containing password. If specified,
+                                    this takes precedence over the Password field.
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                                username:
+                                  type: string
+                              type: object
+                            customHeaders:
+                              description: Custom headers to include in requests.
+                              items:
+                                properties:
+                                  key:
+                                    type: string
+                                  value:
+                                    type: string
+                                required:
+                                - key
+                                - value
+                                type: object
+                              type: array
+                            deploymentTemplate:
+                              description: 'Deployment template (required if `deployments:
+                                true`).'
+                              type: string
+                            deployments:
+                              description: Notify of deployments.
+                              type: boolean
+                            incidentTemplate:
+                              description: 'Incident template (required if `incidents:
+                                true`).'
+                              type: string
+                            incidents:
+                              description: Notify of incidents (SLO violation).
+                              type: boolean
+                            tlsSkipVerify:
+                              description: Whether to skip verification of the Webhook
+                                server's TLS certificate.
+                              type: boolean
+                            url:
+                              description: Webhook URL (required).
+                              pattern: ^https?://.+$
+                              type: string
+                          required:
+                          - url
+                          type: object
+                      required:
+                      - baseURL
+                      type: object
                   required:
                   - apiKeys
                   - name
@@ -7417,6 +7861,48 @@ spec:
                     description: Service type (e.g., ClusterIP, NodePort, LoadBalancer).
                     type: string
                 type: object
+              sso:
+                description: Single Sign-On configuration (Coroot Enterprise Edition
+                  only).
+                properties:
+                  defaultRole:
+                    description: Default role for authenticated users (Admin, Editor,
+                      Viewer, or a custom role).
+                    type: string
+                  enabled:
+                    type: boolean
+                  saml:
+                    description: SAML configuration.
+                    properties:
+                      metadata:
+                        description: Identity Provider Metadata XML.
+                        type: string
+                      metadataSecret:
+                        description: Secret containing the Metadata XML.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                    type: object
+                type: object
               storage:
                 description: Storage configuration for Coroot.
                 properties:
@@ -7479,62 +7965,14 @@ spec:
             type: object
           status:
             properties:
-              conditions:
+              errors:
                 items:
-                  description: Condition contains details for one aspect of the current
-                    state of this API Resource.
-                  properties:
-                    lastTransitionTime:
-                      description: |-
-                        lastTransitionTime is the last time the condition transitioned from one status to another.
-                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
-                      format: date-time
-                      type: string
-                    message:
-                      description: |-
-                        message is a human readable message indicating details about the transition.
-                        This may be an empty string.
-                      maxLength: 32768
-                      type: string
-                    observedGeneration:
-                      description: |-
-                        observedGeneration represents the .metadata.generation that the condition was set based upon.
-                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
-                        with respect to the current state of the instance.
-                      format: int64
-                      minimum: 0
-                      type: integer
-                    reason:
-                      description: |-
-                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
-                        Producers of specific condition types may define expected values and meanings for this field,
-                        and whether the values are considered a guaranteed API.
-                        The value should be a CamelCase string.
-                        This field may not be empty.
-                      maxLength: 1024
-                      minLength: 1
-                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
-                      type: string
-                    status:
-                      description: status of the condition, one of True, False, Unknown.
-                      enum:
-                      - "True"
-                      - "False"
-                      - Unknown
-                      type: string
-                    type:
-                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
-                      maxLength: 316
-                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
-                      type: string
-                  required:
-                  - lastTransitionTime
-                  - message
-                  - reason
-                  - status
-                  - type
-                  type: object
+                  type: string
                 type: array
+              status:
+                type: string
+            required:
+            - status
             type: object
         type: object
     served: true
