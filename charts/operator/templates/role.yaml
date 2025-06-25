@@ -7,26 +7,14 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - configmaps
   - endpoints
+  - events
   - namespaces
   - nodes
+  - persistentvolumeclaims
   - persistentvolumes
   - pods
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
-  - ""
-  resources:
-  - persistentvolumeclaims
   - secrets
   - serviceaccounts
   - services
