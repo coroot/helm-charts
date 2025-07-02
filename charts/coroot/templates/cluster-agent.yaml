@@ -140,6 +140,7 @@ rules:
       - persistentvolumeclaims
       - persistentvolumes
       - secrets
+      - events
     verbs:
       - get
       - list
