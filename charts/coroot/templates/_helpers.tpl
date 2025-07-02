@@ -77,7 +77,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- define "corootConnect.labels" -}}
 helm.sh/chart: {{ include "coroot.chart" . }}
 {{ include "corootConnect.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.corootConnect.image.tag | quote }}
+app.kubernetes.io/version: {{ regexReplaceAll "@.*$" .Values.corootConnect.image.tag "" | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
@@ -98,7 +98,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- define "corootClusterAgent.labels" -}}
 helm.sh/chart: {{ include "coroot.chart" . }}
 {{ include "corootClusterAgent.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.corootClusterAgent.image.tag | quote }}
+app.kubernetes.io/version: {{ regexReplaceAll "@.*$" .Values.corootClusterAgent.image.tag "" | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
