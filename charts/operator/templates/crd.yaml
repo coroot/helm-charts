@@ -3164,6 +3164,11 @@ spec:
                       storage:
                         description: Storage configuration for clickhouse-keeper.
                         properties:
+                          annotations:
+                            additionalProperties:
+                              type: string
+                            description: Annotations for PersistentVolumeClaim (PVC).
+                            type: object
                           className:
                             description: If not set, the default storage class will
                               be used.
@@ -3297,6 +3302,11 @@ spec:
                   storage:
                     description: Storage configuration for clickhouse.
                     properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations for PersistentVolumeClaim (PVC).
+                        type: object
                       className:
                         description: If not set, the default storage class will be
                           used.
@@ -6455,6 +6465,68 @@ spec:
                         - name
                         type: object
                       type: array
+                    inspectionOverrides:
+                      description: Inspection overrides.
+                      properties:
+                        sloAvailability:
+                          description: SLO Availability overrides.
+                          items:
+                            properties:
+                              applicationId:
+                                description: ApplicationId in the format <namespace>:<kind>:<name>
+                                  (e.g., default:Deployment:catalog).
+                                pattern: ^[^:]*:[^:]*:[^:]*
+                                type: string
+                              objectivePercent:
+                                description: The percentage of requests that should
+                                  be served without errors (e.g., 95, 99, 99.9).
+                                maximum: 100
+                                minimum: 0
+                                type: number
+                            required:
+                            - applicationId
+                            - objectivePercent
+                            type: object
+                          type: array
+                        sloLatency:
+                          description: SLO Latency overrides.
+                          items:
+                            properties:
+                              applicationId:
+                                description: ApplicationId in the format <namespace>:<kind>:<name>
+                                  (e.g., default:Deployment:catalog).
+                                pattern: ^[^:]*:[^:]*:[^:]*
+                                type: string
+                              objectivePercent:
+                                description: The percentage of requests that should
+                                  be served faster than ObjectiveThreshold (e.g.,
+                                  95, 99, 99.9).
+                                maximum: 100
+                                minimum: 0
+                                type: number
+                              objectiveThreshold:
+                                description: The latency threshold (e.g., 5ms, 10ms,
+                                  25ms, 50ms, 100ms, 250ms, 500ms, 1s, 2.5s, 5s, 10s).
+                                enum:
+                                - 5ms
+                                - 10ms
+                                - 25ms
+                                - 50ms
+                                - 100ms
+                                - 250ms
+                                - 500ms
+                                - 1s
+                                - 2.5s
+                                - 5s
+                                - 10s
+                                type: string
+                            required:
+                            - applicationId
+                            - objectivePercent
+                            - objectiveThreshold
+                            type: object
+                          type: array
+                      type: object
                     name:
                       description: Project name (e.g., production, staging; required).
                       type: string
@@ -7747,6 +7819,11 @@ spec:
                     type: string
                   storage:
                     properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations for PersistentVolumeClaim (PVC).
+                        type: object
                       className:
                         description: If not set, the default storage class will be
                           used.
@@ -7929,6 +8006,11 @@ spec:
               storage:
                 description: Storage configuration for Coroot.
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: Annotations for PersistentVolumeClaim (PVC).
+                    type: object
                   className:
                     description: If not set, the default storage class will be used.
                     type: string
