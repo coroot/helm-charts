@@ -3224,6 +3224,21 @@ spec:
                           type: object
                         type: array
                     type: object
+                  logLevel:
+                    description: 'Log level (fatal, critical, error, warning, notice,
+                      information, debug, trace, test, or none; default: warning).'
+                    enum:
+                    - none
+                    - fatal
+                    - critical
+                    - error
+                    - warning
+                    - notice
+                    - information
+                    - debug
+                    - trace
+                    - test
+                    type: string
                   nodeSelector:
                     additionalProperties:
                       type: string
@@ -4634,6 +4649,45 @@ spec:
                           type: object
                           x-kubernetes-map-type: atomic
                         type: array
+                    type: object
+                type: object
+              corootCloud:
+                description: Coroot Cloud integration.
+                properties:
+                  apiKey:
+                    description: Coroot Cloud API key. Can be obtained from the UI
+                      after connecting to Coroot Cloud.
+                    type: string
+                  apiKeySecret:
+                    description: Secret containing the API key.
+                    properties:
+                      key:
+                        description: The key of the secret to select from.  Must be
+                          a valid secret key.
+                        type: string
+                      name:
+                        default: ""
+                        description: |-
+                          Name of the referent.
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        type: string
+                      optional:
+                        description: Specify whether the Secret or its key must be
+                          defined
+                        type: boolean
+                    required:
+                    - key
+                    type: object
+                    x-kubernetes-map-type: atomic
+                  rca:
+                    description: Root Cause Analysis (RCA) configuration.
+                    properties:
+                      disableIncidentsAutoInvestigation:
+                        description: If true, incidents will not be investigated automatically.
+                        type: boolean
                     type: object
                 type: object
               enterpriseEdition:
