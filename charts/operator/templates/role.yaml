@@ -27,6 +27,14 @@ rules:
   - update
   - watch
 - apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - apps
   resources:
   - cronjobs
@@ -81,6 +89,19 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - fluxcd.controlplane.io
+  - helm.toolkit.fluxcd.io
+  - image.toolkit.fluxcd.io
+  - kustomize.toolkit.fluxcd.io
+  - notification.toolkit.fluxcd.io
+  - source.toolkit.fluxcd.io
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - networking.k8s.io
   resources:
