@@ -2,18 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## Usage
+Official Helm charts for deploying [Coroot](https://coroot.com) - an open-source observability platform that helps you understand and troubleshoot your systems faster.
 
-[Helm](https://helm.sh) must be installed to use the charts.
-Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
-
-Once Helm is set up properly, add the repo and install Coroot:
-
-```console
-helm repo add coroot https://coroot.github.io/helm-charts
-helm repo update
-helm upgrade --install --namespace coroot --create-namespace coroot coroot/coroot
-```
+Documentation: follow the official installation guide here: [docs.coroot.com/installation/kubernetes](https://docs.coroot.com/installation/kubernetes)
 
 ## License
 
