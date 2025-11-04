@@ -7216,6 +7216,16 @@ entries:
     version: 0.1.0
   coroot-operator:
   - apiVersion: v2
+    appVersion: 1.4.9
+    created: "2025-11-04T16:58:13.635470657Z"
+    description: A Helm chart to deploy the Coroot Operator for Kubernetes
+    digest: b3c8bc8029877f9a0c6af9befca06ae494b9307ba7e4c52ff24cd0e42b0d6ce2
+    name: coroot-operator
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-operator-0.4.9/coroot-operator-0.4.9.tgz
+    version: 0.4.9
+  - apiVersion: v2
     appVersion: 1.4.8
     created: "2025-10-02T09:27:32.930873623Z"
     description: A Helm chart to deploy the Coroot Operator for Kubernetes
@@ -8920,4 +8930,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-02T09:27:32.932212472Z"
+generated: "2025-11-04T16:58:13.636185766Z"
