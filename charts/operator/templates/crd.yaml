@@ -6375,7 +6375,7 @@ spec:
                       recommended).
                     type: string
                   passwordSecret:
-                    description: Secret containing password for accessing postgres.
+                    description: Secret containing a password for accessing postgres.
                     properties:
                       key:
                         description: The key of the secret to select from.  Must be
@@ -6418,7 +6418,7 @@ spec:
                   properties:
                     apiKeys:
                       description: Project API keys, used by agents to send telemetry
-                        data (required).
+                        data (required unless memberProjects is set).
                       items:
                         properties:
                           description:
@@ -6454,7 +6454,6 @@ spec:
                             type: object
                             x-kubernetes-map-type: atomic
                         type: object
-                      minItems: 1
                       type: array
                     applicationCategories:
                       description: Application category settings.
@@ -6611,6 +6610,12 @@ spec:
                             type: object
                           type: array
                       type: object
+                    memberProjects:
+                      description: Names of existing projects to aggregate (multi-cluster
+                        mode).
+                      items:
+                        type: string
+                      type: array
                     name:
                       description: Project name (e.g., production, staging; required).
                       type: string
@@ -6850,9 +6855,13 @@ spec:
                       - baseURL
                       type: object
                   required:
-                  - apiKeys
                   - name
                   type: object
+                  x-kubernetes-validations:
+                  - message: Exactly one of memberProjects or apiKeys must be non-empty.
+                    rule: 'has(self.memberProjects) && size(self.memberProjects) >
+                      0 ? !has(self.apiKeys) || size(self.apiKeys) == 0 : has(self.apiKeys)
+                      && size(self.apiKeys) > 0'
                 type: array
               prometheus:
                 description: Prometheus configuration.
@@ -8145,7 +8154,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: atomic
                   keySecret:
-                    description: Secret containing TLS private key.
+                    description: Secret containing a TLS private key.
                     properties:
                       key:
                         description: The key of the secret to select from.  Must be
