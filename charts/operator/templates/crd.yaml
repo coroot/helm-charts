@@ -8126,6 +8126,10 @@ spec:
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                 type: object
+              storeMetricsInClickhouse:
+                description: Store metrics in ClickHouse. If enabled, Prometheus will
+                  not be installed.
+                type: boolean
               tls:
                 description: TLS settings (enables TLS for gRPC if defined).
                 properties:
