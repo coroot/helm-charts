@@ -6418,7 +6418,7 @@ spec:
                   properties:
                     apiKeys:
                       description: Project API keys, used by agents to send telemetry
-                        data (required unless memberProjects is set).
+                        data (required unless memberProjects or remoteCoroot is set).
                       items:
                         properties:
                           description:
@@ -6854,14 +6854,60 @@ spec:
                       required:
                       - baseURL
                       type: object
+                    remoteCoroot:
+                      description: Use another Coroot instance as the data source
+                        for this project.
+                      properties:
+                        apiKey:
+                          description: API key of the remote project.
+                          type: string
+                        apiKeySecret:
+                          description: Secret containing the API key.
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              default: ""
+                              description: |-
+                                Name of the referent.
+                                This field is effectively required, but due to backwards compatibility is
+                                allowed to be empty. Instances of this type with an empty value here are
+                                almost certainly wrong.
+                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        metricResolution:
+                          description: Prometheus query resolution/refresh interval
+                            (e.g. 15s).
+                          pattern: ^[0-9]+[smhdwy]$
+                          type: string
+                        tlsSkipVerify:
+                          description: Whether to skip verification of the Coroot
+                            server's TLS certificate.
+                          type: boolean
+                        url:
+                          description: Base URL of the remote Coroot instance.
+                          pattern: ^https?://.+$
+                          type: string
+                      type: object
                   required:
                   - name
                   type: object
                   x-kubernetes-validations:
-                  - message: Exactly one of memberProjects or apiKeys must be non-empty.
-                    rule: 'has(self.memberProjects) && size(self.memberProjects) >
-                      0 ? !has(self.apiKeys) || size(self.apiKeys) == 0 : has(self.apiKeys)
-                      && size(self.apiKeys) > 0'
+                  - message: Exactly one of memberProjects, remoteCoroot, or apiKeys
+                      must be set.
+                    rule: '(has(self.memberProjects) && size(self.memberProjects)
+                      > 0 ? 1 : 0) + (has(self.remoteCoroot) ? 1 : 0) + (has(self.apiKeys)
+                      && size(self.apiKeys) > 0 ? 1 : 0) == 1'
                 type: array
               prometheus:
                 description: Prometheus configuration.
