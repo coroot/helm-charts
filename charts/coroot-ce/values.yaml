@@ -62,8 +62,6 @@ clusterAgent:
 #    - name:
 #      value:
 
-
-
 prometheus:
   storage:
     size: 10Gi
