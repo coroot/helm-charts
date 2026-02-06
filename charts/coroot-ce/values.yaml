@@ -1,13 +1,14 @@
-apiKey:
+
+apiKey: ""
 metricsRefreshInterval: 15s
-authAnonymousRole:
-authBootstrapAdminPassword:
+authAnonymousRole: ""
+authBootstrapAdminPassword: ""
 
 #replicas: 1
 
 service:
-#  type: ClusterIP
-#  port: 8080
+  type: ClusterIP
+  port: 8080
 #  nodePort:
 
 #ingress:
@@ -60,6 +61,8 @@ clusterAgent:
 #  env:
 #    - name:
 #      value:
+
+
 
 prometheus:
   storage:
