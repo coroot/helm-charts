@@ -7176,6 +7176,15 @@ entries:
     version: 0.1.1
   coroot-ce:
   - apiVersion: v2
+    created: "2026-02-11T14:02:20.189576279Z"
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 841b898f74ffee952318e0f01493e189dcb2e26e0780480b83cb2dfa410c6d28
+    name: coroot-ce
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-ce-0.3.2/coroot-ce-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
     created: "2025-01-15T13:34:00.593566541Z"
     description: A monitoring and troubleshooting tool for microservice architectures.
     digest: 0b31490c3183fbfee19727e771f036ddda287830bdd38a52ddf7204c863cd9fa
@@ -7212,6 +7221,15 @@ entries:
     - https://github.com/coroot/helm-charts/releases/download/coroot-ce-0.1.0/coroot-ce-0.1.0.tgz
     version: 0.1.0
   coroot-ee:
+  - apiVersion: v2
+    created: "2026-02-11T14:02:20.394560196Z"
+    description: A monitoring and troubleshooting tool for microservice architectures.
+    digest: 2527d996ad38965db0eb4ad0399899d2cdc60f01e7785fc73f582ab28d0a14be
+    name: coroot-ee
+    type: application
+    urls:
+    - https://github.com/coroot/helm-charts/releases/download/coroot-ee-0.3.1/coroot-ee-0.3.1.tgz
+    version: 0.3.1
   - apiVersion: v2
     created: "2025-01-06T08:14:27.226994569Z"
     description: A monitoring and troubleshooting tool for microservice architectures.
@@ -8995,4 +9013,4 @@ entries:
     urls:
     - https://github.com/coroot/helm-charts/releases/download/otel-demo-0.1.0/otel-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-23T12:17:37.992192174Z"
+generated: "2026-02-11T14:02:20.396108881Z"
