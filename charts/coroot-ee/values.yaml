@@ -1,13 +1,13 @@
-licenseKey:
+#licenseKey:
 
-apiKey:
+#apiKey: ""
 metricsRefreshInterval: 15s
-authAnonymousRole:
-authBootstrapAdminPassword:
+#authAnonymousRole: ""
+#authBootstrapAdminPassword: ""
 
 #replicas: 1
 
-service:
+#service:
 #  type: ClusterIP
 #  port: 8080
 #  nodePort:
@@ -22,7 +22,7 @@ storage:
   size: 10Gi
 #  className:
 
-resources:
+#resources:
 #  requests:
 #    cpu: 1
 #    memory: 4Gi
@@ -34,7 +34,7 @@ resources:
 #  - name:
 #    value:
 
-nodeAgent:
+#nodeAgent:
 #  priorityClassName:
 #  updateStrategy:
 #    type: RollingUpdate
@@ -51,7 +51,7 @@ nodeAgent:
 #    - name:
 #      value:
 
-clusterAgent:
+#clusterAgent:
 #  resources:
 #    requests:
 #      cpu:
