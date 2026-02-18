@@ -4706,6 +4706,9 @@ spec:
                         type: boolean
                     type: object
                 type: object
+              disableBuiltinAlerts:
+                description: Disable all built-in alerting rules on startup.
+                type: boolean
               enterpriseEdition:
                 description: Configurations for Coroot Enterprise Edition.
                 properties:
@@ -6416,6 +6419,143 @@ spec:
                   the specified projects).
                 items:
                   properties:
+                    alertingRules:
+                      description: Alerting rules. Rules defined here are shown with
+                        a lock icon in the UI and cannot be edited or deleted through
+                        the UI.
+                      items:
+                        properties:
+                          enabled:
+                            description: Whether the rule is enabled.
+                            type: boolean
+                          for:
+                            description: How long the condition must be true before
+                              firing (e.g., 5m, 1h).
+                            pattern: ^[0-9]+[smhdwy]$
+                            type: string
+                          id:
+                            description: |-
+                              Rule ID (required). For built-in rules, use the existing rule ID (e.g., storage-space, memory-pressure).
+                              For custom rules, choose any unique ID. The ID is shown in the rule detail dialog.
+                            type: string
+                          keepFiringFor:
+                            description: How long to keep firing after condition clears
+                              (e.g., 5m).
+                            pattern: ^[0-9]+[smhdwy]$
+                            type: string
+                          name:
+                            description: Rule name.
+                            type: string
+                          notificationCategory:
+                            description: Override the notification category for this
+                              rule.
+                            type: string
+                          selector:
+                            description: Application selector.
+                            properties:
+                              applicationIdPatterns:
+                                description: Application ID patterns to match (when
+                                  type is applications).
+                                items:
+                                  type: string
+                                type: array
+                              categories:
+                                description: Application categories to match (when
+                                  type is category).
+                                items:
+                                  type: string
+                                type: array
+                              type:
+                                description: 'Selector type: all, category, or applications.'
+                                enum:
+                                - all
+                                - category
+                                - applications
+                                type: string
+                            required:
+                            - type
+                            type: object
+                          severity:
+                            description: Severity level (warning or critical).
+                            enum:
+                            - warning
+                            - critical
+                            type: string
+                          source:
+                            description: Alert source configuration.
+                            properties:
+                              check:
+                                description: Check source configuration (required
+                                  if type is check).
+                                properties:
+                                  checkId:
+                                    description: The inspection check ID (e.g., cpu-utilization,
+                                      storage-space).
+                                    type: string
+                                required:
+                                - checkId
+                                type: object
+                              logPattern:
+                                description: Log pattern source configuration (required
+                                  if type is log_patterns).
+                                properties:
+                                  evaluateWithAi:
+                                    description: Use AI to evaluate log patterns and
+                                      reduce noise.
+                                    type: boolean
+                                  maxAlertsPerApp:
+                                    description: Maximum number of alerts per application
+                                      for this rule.
+                                    type: integer
+                                  minCount:
+                                    description: Minimum number of occurrences before
+                                      alerting.
+                                    type: integer
+                                  severities:
+                                    description: Log severities to match (e.g., ["error",
+                                      "fatal"]).
+                                    items:
+                                      type: string
+                                    type: array
+                                required:
+                                - severities
+                                type: object
+                              promql:
+                                description: PromQL source configuration (required
+                                  if type is promql).
+                                properties:
+                                  expression:
+                                    description: PromQL expression that triggers the
+                                      alert when it returns results.
+                                    type: string
+                                required:
+                                - expression
+                                type: object
+                              type:
+                                description: 'Source type: check, log_patterns, or
+                                  promql.'
+                                enum:
+                                - check
+                                - log_patterns
+                                - promql
+                                type: string
+                            required:
+                            - type
+                            type: object
+                          templates:
+                            description: Notification templates.
+                            properties:
+                              description:
+                                description: Description template.
+                                type: string
+                              summary:
+                                description: Summary template.
+                                type: string
+                            type: object
+                        required:
+                        - id
+                        type: object
+                      type: array
                     apiKeys:
                       description: Project API keys, used by agents to send telemetry
                         data (required unless memberProjects or remoteCoroot is set).
