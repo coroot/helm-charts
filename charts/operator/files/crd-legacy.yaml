@@ -5966,6 +5966,39 @@ spec:
                             notificationSettings:
                               description: Application category notification settings.
                               properties:
+                                alerts:
+                                  description: Notify of alerts.
+                                  properties:
+                                    enabled:
+                                      type: boolean
+                                    opsgenie:
+                                      properties:
+                                        enabled:
+                                          type: boolean
+                                      type: object
+                                    pagerduty:
+                                      properties:
+                                        enabled:
+                                          type: boolean
+                                      type: object
+                                    slack:
+                                      properties:
+                                        channel:
+                                          type: string
+                                        enabled:
+                                          type: boolean
+                                      type: object
+                                    teams:
+                                      properties:
+                                        enabled:
+                                          type: boolean
+                                      type: object
+                                    webhook:
+                                      properties:
+                                        enabled:
+                                          type: boolean
+                                      type: object
+                                  type: object
                                 deployments:
                                   description: Notify of deployments.
                                   properties:
@@ -6117,6 +6150,9 @@ spec:
                           opsgenie:
                             description: Opsgenie configuration.
                             properties:
+                              alerts:
+                                description: Notify of alerts.
+                                type: boolean
                               apiKey:
                                 description: Opsgenie API Key.
                                 type: string
@@ -6151,6 +6187,9 @@ spec:
                           pagerduty:
                             description: PagerDuty configuration.
                             properties:
+                              alerts:
+                                description: Notify of alerts.
+                                type: boolean
                               incidents:
                                 description: Notify of incidents (SLO violation).
                                 type: boolean
@@ -6182,6 +6221,9 @@ spec:
                           slack:
                             description: Slack configuration.
                             properties:
+                              alerts:
+                                description: Notify of alerts.
+                                type: boolean
                               defaultChannel:
                                 description: Default Slack channel name.
                                 type: string
@@ -6221,6 +6263,9 @@ spec:
                           teams:
                             description: Microsoft Teams configuration.
                             properties:
+                              alerts:
+                                description: Notify of alerts.
+                                type: boolean
                               deployments:
                                 description: Notify of deployments.
                                 type: boolean
@@ -6255,6 +6300,12 @@ spec:
                           webhook:
                             description: Webhook configuration.
                             properties:
+                              alertTemplate:
+                                description: 'Alert template (required if `alerts: true`).'
+                                type: string
+                              alerts:
+                                description: Notify of alerts.
+                                type: boolean
                               basicAuth:
                                 description: Basic auth credentials.
                                 properties:
