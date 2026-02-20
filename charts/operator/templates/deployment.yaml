@@ -33,6 +33,36 @@ spec:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if or .Values.registry.url .Values.registry.pullSecret .Values.registry.tlsSkipVerify }}
+          env:
+            {{- if .Values.registry.url }}
+            - name: REGISTRY_URL
+              value: {{ .Values.registry.url | quote }}
+            {{- end }}
+            {{- if .Values.registry.pullSecret }}
+            - name: REGISTRY_PULL_SECRET
+              value: {{ .Values.registry.pullSecret | quote }}
+            {{- end }}
+            {{- if .Values.registry.tlsSkipVerify }}
+            - name: REGISTRY_TLS_SKIP_VERIFY
+              value: "true"
+            {{- end }}
+          {{- end }}
+          {{- if .Values.registry.pullSecret }}
+          volumeMounts:
+            - name: registry-auth
+              mountPath: /etc/registry
+              readOnly: true
+          {{- end }}
+      {{- if .Values.registry.pullSecret }}
+      volumes:
+        - name: registry-auth
+          secret:
+            secretName: {{ .Values.registry.pullSecret }}
+            items:
+              - key: .dockerconfigjson
+                path: config.json
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

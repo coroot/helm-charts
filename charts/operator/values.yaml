@@ -42,3 +42,15 @@ tolerations: []
 
 ## Affinity for pods assignment
 affinity: {}
+
+## Container image registry configuration for Coroot components.
+## When set, the operator uses this registry for both version discovery and image paths.
+registry:
+  ## Full registry URL including scheme and path prefix (default: https://ghcr.io/coroot).
+  ## Examples: https://ghcr.io/coroot, https://artifactory.example.com/docker-local/coroot
+  url: ""
+  ## Name of an existing kubernetes.io/dockerconfigjson secret for registry authentication.
+  ## Used both for OCI version discovery and as imagePullSecret on component pods.
+  pullSecret: ""
+  ## Skip TLS certificate verification for registries with self-signed certificates.
+  tlsSkipVerify: false
