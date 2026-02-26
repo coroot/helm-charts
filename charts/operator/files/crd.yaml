@@ -6495,6 +6495,23 @@ spec:
                                 required:
                                 - checkId
                                 type: object
+                              kubernetesEvents:
+                                description: Kubernetes events source configuration
+                                  (required if type is kubernetes_events).
+                                properties:
+                                  evaluateWithAi:
+                                    description: Use AI to evaluate Kubernetes events
+                                      and reduce noise.
+                                    type: boolean
+                                  maxAlertsPerApp:
+                                    description: Maximum number of alerts per application
+                                      for this rule.
+                                    type: integer
+                                  minCount:
+                                    description: Minimum number of occurrences before
+                                      alerting.
+                                    type: integer
+                                type: object
                               logPattern:
                                 description: Log pattern source configuration (required
                                   if type is log_patterns).
@@ -6532,11 +6549,12 @@ spec:
                                 - expression
                                 type: object
                               type:
-                                description: 'Source type: check, log_patterns, or
-                                  promql.'
+                                description: 'Source type: check, log_patterns, kubernetes_events,
+                                  or promql.'
                                 enum:
                                 - check
                                 - log_patterns
+                                - kubernetes_events
                                 - promql
                                 type: string
                             required:
