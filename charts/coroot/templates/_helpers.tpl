@@ -1,4 +1,13 @@
 {{/*
+Deprecation check
+*/}}
+{{- define "coroot.deprecationCheck" -}}
+{{- if not .Values.iUnderstandThisChartIsDeprecated -}}
+{{- fail "\n\nThis chart is deprecated. Please follow the docs at: https://docs.coroot.com\nIf you still want to use this chart, set iUnderstandThisChartIsDeprecated=true" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the chart.
 */}}
 {{- define "coroot.name" -}}

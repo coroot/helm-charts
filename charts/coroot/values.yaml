@@ -1,3 +1,5 @@
+iUnderstandThisChartIsDeprecated: false
+
 corootCE:
   enabled: true
   bootstrap:
