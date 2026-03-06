@@ -3328,6 +3328,92 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
                         type: object
                     type: object
+                  s3:
+                    description: S3 storage configuration for ClickHouse (optional).
+                    properties:
+                      cacheSize:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        description: 'Local cache size for S3 reads (default: 10Gi).
+                          Must be less than clickhouse storage size.'
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      credentials:
+                        description: S3 credentials (optional — omit for IAM/IRSA/workload
+                          identity).
+                        properties:
+                          accessKeyId:
+                            description: Secret reference for the access key ID.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                          secretAccessKey:
+                            description: Secret reference for the secret access key.
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                      endpoint:
+                        description: S3 endpoint URL. E.g., https://s3.amazonaws.com/my-bucket/clickhouse/
+                        type: string
+                      mode:
+                        default: tiered
+                        description: |-
+                          Storage mode: "tiered" keeps recent data on local disk and moves older data to S3;
+                          "s3only" stores all data on S3 using local disk only for cache.
+                        enum:
+                        - tiered
+                        - s3only
+                        type: string
+                      moveFactor:
+                        description: 'Fraction of local disk free space that triggers
+                          moving data to S3 (default: 0.1). Only used in tiered mode.'
+                        type: string
+                      region:
+                        description: S3 region (optional).
+                        type: string
+                    required:
+                    - endpoint
+                    type: object
                   shards:
                     type: integer
                   storage:
