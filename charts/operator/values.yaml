@@ -1,3 +1,8 @@
+## RBAC configuration
+rbac:
+  # Set to true to remove secrets permissions from the operator ClusterRole
+  denyGlobalSecrets: false
+
 ## Service Account configuration
 serviceAccount:
   # Specifies whether a service account should be created

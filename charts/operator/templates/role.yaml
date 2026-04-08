@@ -14,7 +14,9 @@ rules:
   - persistentvolumeclaims
   - persistentvolumes
   - pods
+  {{- if not .Values.rbac.denyGlobalSecrets }}
   - secrets
+  {{- end }}
   - serviceaccounts
   - services
   verbs:
@@ -155,3 +157,22 @@ rules:
   - patch
   - update
   - watch
+{{- if .Values.rbac.denyGlobalSecrets }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: coroot-operator-secrets
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
+  - update
+  - watch
+{{- end }}

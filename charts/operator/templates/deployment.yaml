@@ -33,7 +33,7 @@ spec:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if or .Values.registry.url .Values.registry.pullSecret .Values.registry.tlsSkipVerify }}
+          {{- if or .Values.registry.url .Values.registry.pullSecret .Values.registry.tlsSkipVerify .Values.rbac.denyGlobalSecrets }}
           env:
             {{- if .Values.registry.url }}
             - name: REGISTRY_URL
@@ -45,6 +45,10 @@ spec:
             {{- end }}
             {{- if .Values.registry.tlsSkipVerify }}
             - name: REGISTRY_TLS_SKIP_VERIFY
+              value: "true"
+            {{- end }}
+            {{- if .Values.rbac.denyGlobalSecrets }}
+            - name: DENY_GLOBAL_SECRETS
               value: "true"
             {{- end }}
           {{- end }}
