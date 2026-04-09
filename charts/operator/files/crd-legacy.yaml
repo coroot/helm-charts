@@ -6426,6 +6426,11 @@ spec:
                                   username:
                                     type: string
                                 type: object
+                              customFields:
+                                additionalProperties:
+                                  type: string
+                                description: Static key-value pairs included as top-level fields in template data.
+                                type: object
                               customHeaders:
                                 description: Custom headers to include in requests.
                                 items:
