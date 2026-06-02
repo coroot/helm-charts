@@ -25,6 +25,9 @@ resources:
 ## Extra annotations for pods
 podAnnotations: {}
 
+## Extra labels for pods
+podLabels: {}
+
 ## Configure Pods Security Context
 podSecurityContext:
   runAsNonRoot: true
