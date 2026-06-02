@@ -17,6 +17,9 @@ spec:
       {{- end }}
       labels:
         app.kubernetes.io/name: coroot-operator
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
