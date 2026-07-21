@@ -134,6 +134,25 @@ rules:
       - update
       - watch
   - apiGroups:
+      - pgv2.percona.com
+    resources:
+      - perconapgbackups
+      - perconapgclusters
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - postgresql.cnpg.io
+    resources:
+      - backups
+      - clusters
+      - scheduledbackups
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - clusterrolebindings
