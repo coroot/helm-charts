@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: Replace=true
-    controller-gen.kubebuilder.io/version: v0.16.1
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: coroots.coroot.com
 spec:
   group: coroot.com
@@ -4674,6 +4674,39 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
                         type: object
                     type: object
+                  tls:
+                    description: TLS settings for connecting to Coroot.
+                    properties:
+                      caSecret:
+                        description: Secret containing the CA certificate to verify
+                          the Coroot server's certificate.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      tlsSkipVerify:
+                        description: Whether to skip verification of the Coroot server's
+                          TLS certificate.
+                        type: boolean
+                    type: object
                   tolerations:
                     items:
                       description: |-
@@ -5096,6 +5129,12 @@ spec:
                     description: Disables gRPC server.
                     type: boolean
                 type: object
+              httpDisabled:
+                description: Disable plain HTTP.
+                type: boolean
+              httpsListen:
+                description: 'HTTPS listen address (default: :8443).'
+                type: string
               ingress:
                 description: Ingress configuration for Coroot.
                 properties:
@@ -6330,6 +6369,39 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
                         type: object
                     type: object
+                  tls:
+                    description: TLS settings for connecting to Coroot.
+                    properties:
+                      caSecret:
+                        description: Secret containing the CA certificate to verify
+                          the Coroot server's certificate.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      tlsSkipVerify:
+                        description: Whether to skip verification of the Coroot server's
+                          TLS certificate.
+                        type: boolean
+                    type: object
                   tolerations:
                     items:
                       description: |-
@@ -6739,6 +6811,10 @@ spec:
                                     type: object
                                   teams:
                                     properties:
+                                      channel:
+                                        description: MS Teams channel name (the integration's
+                                          default channel is used if empty).
+                                        type: string
                                       enabled:
                                         type: boolean
                                     type: object
@@ -6762,6 +6838,10 @@ spec:
                                     type: object
                                   teams:
                                     properties:
+                                      channel:
+                                        description: MS Teams channel name (the integration's
+                                          default channel is used if empty).
+                                        type: string
                                       enabled:
                                         type: boolean
                                     type: object
@@ -6795,6 +6875,10 @@ spec:
                                     type: object
                                   teams:
                                     properties:
+                                      channel:
+                                        description: MS Teams channel name (the integration's
+                                          default channel is used if empty).
+                                        type: string
                                       enabled:
                                         type: boolean
                                     type: object
@@ -7032,6 +7116,50 @@ spec:
                             alerts:
                               description: Notify of alerts.
                               type: boolean
+                            channels:
+                              description: MS Teams channels (each channel is a separate
+                                webhook). Notifications are routed to a channel by
+                                name in the application category settings.
+                              items:
+                                properties:
+                                  name:
+                                    description: Channel name (required).
+                                    type: string
+                                  webhookURL:
+                                    description: MS Teams Webhook URL for this channel.
+                                    type: string
+                                  webhookURLSecret:
+                                    description: Secret containing the Webhook URL.
+                                    properties:
+                                      key:
+                                        description: The key of the secret to select
+                                          from.  Must be a valid secret key.
+                                        type: string
+                                      name:
+                                        default: ""
+                                        description: |-
+                                          Name of the referent.
+                                          This field is effectively required, but due to backwards compatibility is
+                                          allowed to be empty. Instances of this type with an empty value here are
+                                          almost certainly wrong.
+                                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        type: string
+                                      optional:
+                                        description: Specify whether the Secret or
+                                          its key must be defined
+                                        type: boolean
+                                    required:
+                                    - key
+                                    type: object
+                                    x-kubernetes-map-type: atomic
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            defaultChannel:
+                              description: 'The channel used unless an application
+                                category specifies another one (default: "default").'
+                              type: string
                             deployments:
                               description: Notify of deployments.
                               type: boolean
@@ -7039,7 +7167,9 @@ spec:
                               description: Notify of incidents (SLO violation).
                               type: boolean
                             webhookURL:
-                              description: MS Teams Webhook URL.
+                              description: 'MS Teams Webhook URL (deprecated: use
+                                `channels`; treated as the "default" channel; cannot
+                                be used together with `channels`).'
                               type: string
                             webhookURLSecret:
                               description: Secret containing the Webhook URL.
@@ -8395,6 +8525,14 @@ spec:
                     type: integer
                   grpcPort:
                     description: gRPC port (default 4317).
+                    format: int32
+                    type: integer
+                  httpsNodePort:
+                    description: HTTPS nodePort (if type is NodePort).
+                    format: int32
+                    type: integer
+                  httpsPort:
+                    description: HTTPS port (optional).
                     format: int32
                     type: integer
                   nodePort:
