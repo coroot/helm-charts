@@ -152,6 +152,15 @@ rules:
       - list
       - watch
   - apiGroups:
+      - pxc.percona.com
+    resources:
+      - perconaxtradbclusterbackups
+      - perconaxtradbclusters
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
       - postgresql.cnpg.io
     resources:
       - backups
