@@ -4793,6 +4793,146 @@ spec:
                             x-kubernetes-list-type: atomic
                         type: object
                     type: object
+                  aws:
+                    description: AWS integration settings (discovery of RDS and ElastiCache
+                      instances). Overrides the settings made in the Coroot UI.
+                    properties:
+                      accessKeySecret:
+                        description: |-
+                          Secret with the static access key (keys: access_key_id, secret_access_key).
+                          Leave empty to use the IAM role of the cluster-agent pod (EKS Pod Identity, IRSA) or the EC2 instance profile.
+                        properties:
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      elasticacheTagFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only ElastiCache clusters whose tags
+                          match (glob patterns are supported in values).
+                        type: object
+                      rdsTagFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only RDS instances whose tags match
+                          (glob patterns are supported in values).
+                        type: object
+                      region:
+                        description: AWS region to discover instances in. Defaults
+                          to the region the cluster runs in.
+                        type: string
+                    type: object
+                  databases:
+                    description: Databases to collect metrics from, in addition to
+                      those configured in the Coroot UI or discovered through pod
+                      annotations.
+                    items:
+                      description: |-
+                        ClusterAgentDatabaseSpec is a database the cluster-agent collects metrics from.
+                        Exactly one of host, rds or elasticache must be set.
+                      properties:
+                        credentials:
+                          description: Credentials.
+                          properties:
+                            password:
+                              description: Plain-text password. Prefer passwordSecret.
+                              type: string
+                            passwordSecret:
+                              description: Secret with the password.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                            username:
+                              description: Plain-text username. Prefer usernameSecret.
+                              type: string
+                            usernameSecret:
+                              description: Secret with the username.
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must
+                                    be a valid secret key.
+                                  type: string
+                                name:
+                                  default: ""
+                                  description: |-
+                                    Name of the referent.
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key
+                                    must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                              x-kubernetes-map-type: atomic
+                          type: object
+                        elasticache:
+                          description: Id of an ElastiCache cluster discovered by
+                            the AWS integration; every node is monitored.
+                          type: string
+                        host:
+                          description: Hostname or IP address. A hostname is re-resolved
+                            on every configuration update and every resolved address
+                            is monitored.
+                          type: string
+                        params:
+                          additionalProperties:
+                            type: string
+                          description: 'Type-specific parameters, e.g. sslmode: require
+                            for Postgres.'
+                          type: object
+                        port:
+                          description: Port. Required with host; defaults to the instance
+                            port for rds and elasticache.
+                          type: string
+                        rds:
+                          description: Identifier of an RDS instance discovered by
+                            the AWS integration.
+                          type: string
+                        type:
+                          description: Database type.
+                          enum:
+                          - postgres
+                          - mysql
+                          - redis
+                          - memcached
+                          - mongodb
+                          type: string
+                      required:
+                      - type
+                      type: object
+                    type: array
                   env:
                     description: Environment variables for the cluster-agent.
                     items:
