@@ -4837,8 +4837,12 @@ spec:
                     items:
                       description: |-
                         ClusterAgentDatabaseSpec is a database the cluster-agent collects metrics from.
-                        Exactly one of host, rds or elasticache must be set.
+                        Exactly one of host, rds, elasticache, cloudsql, memorystore, ocidb or ocicache must be set.
                       properties:
+                        cloudsql:
+                          description: Name of a Cloud SQL instance discovered by
+                            the GCP integration.
+                          type: string
                         credentials:
                           description: Credentials.
                           properties:
@@ -4905,6 +4909,18 @@ spec:
                           description: Hostname or IP address. A hostname is re-resolved
                             on every configuration update and every resolved address
                             is monitored.
+                          type: string
+                        memorystore:
+                          description: Name of a Memorystore instance discovered by
+                            the GCP integration.
+                          type: string
+                        ocicache:
+                          description: Display name of an OCI Cache cluster discovered
+                            by the OCI integration.
+                          type: string
+                        ocidb:
+                          description: Display name of a MySQL HeatWave or PostgreSQL
+                            DB system discovered by the OCI integration.
                           type: string
                         params:
                           additionalProperties:
@@ -5053,6 +5069,58 @@ spec:
                       - name
                       type: object
                     type: array
+                  gcp:
+                    description: GCP integration settings (discovery of Cloud SQL
+                      and Memorystore instances).
+                    properties:
+                      cloudsqlLabelFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only Cloud SQL instances whose labels
+                          match (glob patterns are supported in values).
+                        type: object
+                      credentialsSecret:
+                        description: |-
+                          Secret with a service account key (key: credentials.json).
+                          Leave empty to use GKE Workload Identity or the service account of the node.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      memorystoreLabelFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only Memorystore instances whose labels
+                          match (glob patterns are supported in values).
+                        type: object
+                      projectId:
+                        description: GCP project to discover instances in. Defaults
+                          to the project of the GKE cluster.
+                        type: string
+                      region:
+                        description: Region to discover instances in. Defaults to
+                          the region the cluster runs in; "all" scans every region
+                          of the project.
+                        type: string
+                    type: object
                   image:
                     description: |-
                       ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
@@ -5133,6 +5201,50 @@ spec:
                       type: string
                     description: NodeSelector restricts scheduling to nodes matching
                       the specified labels.
+                    type: object
+                  oci:
+                    description: 'OCI integration: discovery of MySQL HeatWave and
+                      PostgreSQL DB systems and OCI Cache clusters.'
+                    properties:
+                      apiKeySecret:
+                        description: 'Secret with an API key (keys: tenancy_id, user_id,
+                          fingerprint, private_key); leave unset to use OKE Workload
+                          Identity or the instance principal of the nodes.'
+                        properties:
+                          name:
+                            default: ""
+                            description: |-
+                              Name of the referent.
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      cacheTagFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only OCI Cache clusters whose freeform
+                          tags match (glob patterns are supported in values).
+                        type: object
+                      compartmentIds:
+                        description: OCIDs of the compartments to discover instances
+                          in. Defaults to the compartment of the cluster when OKE
+                          Workload Identity is used.
+                        items:
+                          type: string
+                        type: array
+                      dbTagFilters:
+                        additionalProperties:
+                          type: string
+                        description: Discover only DB systems whose freeform tags
+                          match (glob patterns are supported in values).
+                        type: object
+                      region:
+                        description: Region to discover instances in. Defaults to
+                          the region the cluster runs in.
+                        type: string
                     type: object
                   podAnnotations:
                     additionalProperties:
