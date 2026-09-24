@@ -9825,7 +9825,7 @@ spec:
                     rule: has(self.apiKeys) && size(self.apiKeys) > 0
                   - message: Every API key of a service account must have a description.
                     rule: '!has(self.apiKeys) || self.apiKeys.all(k, has(k.description)
-                      && k.description != ”)'
+                      && size(k.description) > 0)'
                 type: array
               sso:
                 description: Single Sign-On configuration (Coroot Enterprise Edition
