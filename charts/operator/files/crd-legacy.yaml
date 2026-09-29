@@ -8861,7 +8861,8 @@ spec:
                         items:
                           properties:
                             description:
-                              description: API key description (optional).
+                              description: API key description (required).
+                              minLength: 1
                               type: string
                             key:
                               description: Plain-text API key. Must be unique. Prefer using KeySecret for better security.
@@ -8887,6 +8888,8 @@ spec:
                               required:
                                 - key
                               type: object
+                          required:
+                            - description
                           type: object
                         type: array
                       name:

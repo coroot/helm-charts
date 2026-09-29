@@ -9776,7 +9776,8 @@ spec:
                       items:
                         properties:
                           description:
-                            description: API key description (optional).
+                            description: API key description (required).
+                            minLength: 1
                             type: string
                           key:
                             description: Plain-text API key. Must be unique. Prefer
@@ -9807,6 +9808,8 @@ spec:
                             - key
                             type: object
                             x-kubernetes-map-type: atomic
+                        required:
+                        - description
                         type: object
                       type: array
                     name:
@@ -9823,9 +9826,6 @@ spec:
                   x-kubernetes-validations:
                   - message: At least one API key must be defined.
                     rule: has(self.apiKeys) && size(self.apiKeys) > 0
-                  - message: Every API key of a service account must have a description.
-                    rule: '!has(self.apiKeys) || self.apiKeys.all(k, has(k.description)
-                      && size(k.description) > 0)'
                 type: array
               sso:
                 description: Single Sign-On configuration (Coroot Enterprise Edition
