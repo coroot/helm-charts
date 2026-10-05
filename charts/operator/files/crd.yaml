@@ -4949,6 +4949,9 @@ spec:
                       - type
                       type: object
                     type: array
+                  enabled:
+                    description: 'Install the cluster-agent (default: true).'
+                    type: boolean
                   env:
                     description: Environment variables for the cluster-agent.
                     items:
@@ -5195,6 +5198,19 @@ spec:
                               x-kubernetes-map-type: atomic
                             type: array
                         type: object
+                    type: object
+                  kubernetes:
+                    description: Monitoring of the Kubernetes cluster the cluster-agent
+                      runs in.
+                    properties:
+                      enabled:
+                        description: |-
+                          Collect telemetry from the Kubernetes cluster the cluster-agent runs in: kube-state-metrics, events,
+                          and the databases, custom metrics and profiles discovered from pods (default: true).
+                          When disabled, the cluster-agent monitors only the databases defined in the configuration and the cloud integrations,
+                          which is useful for running an additional cluster-agent that monitors databases for another cluster.
+                          Requires a cluster-agent version that supports --disable-kubernetes.
+                        type: boolean
                     type: object
                   nodeSelector:
                     additionalProperties:
@@ -6965,6 +6981,9 @@ spec:
                         pattern: ^(0([.][0-9]+)?|1([.]0+)?)$
                         type: string
                     type: object
+                  enabled:
+                    description: 'Install the node-agent (default: true).'
+                    type: boolean
                   env:
                     description: Environment variables for the node-agent.
                     items:
