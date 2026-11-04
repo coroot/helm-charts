@@ -15,6 +15,33 @@ metricsRefreshInterval: 15s
 #  host:
 #  path: /
 #  tls:
+# Mutually exclusive with ingress. Requires an operator release implementing spec.httpRoute,
+# an existing Gateway (TLS terminates there; certificate is external) and Gateway API CRDs installed.
+#httpRoute:
+#  # parentRefs pick the existing Gateway: `namespace` is the Gateway's namespace
+#  # (omit it when the Gateway is in this release's namespace); `sectionName` picks the
+#  # listener by name, independently of namespace.
+#  parentRefs:
+#    - name: coroot-gateway
+#      namespace: gateway-infra
+#      sectionName: http
+#  hostnames:
+#    - coroot.example.com
+#  path: /
+#  # Standard and extension (existing implementation-specific resource, e.g. a Traefik
+#  # Middleware in the same namespace) Gateway API filters; each item needs its `type`.
+#  filters:
+#    - type: RequestHeaderModifier
+#      requestHeaderModifier:
+#        add:
+#          - name: X-Coroot
+#            value: helm
+#    - type: ExtensionRef
+#      extensionRef:
+#        group: traefik.io
+#        kind: Middleware
+#        name: strip-prefix
+#  #annotations: {}
 
 storage:
   size: 10Gi
