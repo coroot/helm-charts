@@ -2082,6 +2082,12 @@ spec:
                             x-kubernetes-list-type: atomic
                         type: object
                     type: object
+                  fsync:
+                    description: |-
+                      Fsync data parts to disk after inserts and merges (default: false).
+                      By default, ClickHouse doesn't fsync parts, relying on other replicas to recover the parts lost on a node failure.
+                      Enabling this prevents data loss in single-replica setups at the cost of additional disk I/O.
+                    type: boolean
                   image:
                     description: |-
                       ImageSpec defines the configuration for specifying an image repository, tag, pull policy, and pull secrets.
@@ -7784,6 +7790,48 @@ spec:
                             required:
                             - applicationId
                             - objectivePercent
+                            type: object
+                          type: array
+                        sloLLMLatency:
+                          description: SLO LLM Latency overrides (latency of LLM inference
+                            requests served by the app).
+                          items:
+                            properties:
+                              applicationId:
+                                description: ApplicationId in the format <namespace>:<kind>:<name>
+                                  (e.g., default:Deployment:vllm).
+                                pattern: ^[^:]*:[^:]*:[^:]*
+                                type: string
+                              objectivePercent:
+                                description: The percentage of LLM inference requests
+                                  that should be served faster than ObjectiveThreshold
+                                  (e.g., 95, 99, 99.9).
+                                maximum: 100
+                                minimum: 0
+                                type: number
+                              objectiveThreshold:
+                                description: The latency threshold (e.g., 100ms, 250ms,
+                                  500ms, 1s, 2.5s, 5s, 10s, 20s, 30s, 1m, 2m, 5m,
+                                  10m).
+                                enum:
+                                - 100ms
+                                - 250ms
+                                - 500ms
+                                - 1s
+                                - 2.5s
+                                - 5s
+                                - 10s
+                                - 20s
+                                - 30s
+                                - 1m
+                                - 2m
+                                - 5m
+                                - 10m
+                                type: string
+                            required:
+                            - applicationId
+                            - objectivePercent
+                            - objectiveThreshold
                             type: object
                           type: array
                         sloLatency:
